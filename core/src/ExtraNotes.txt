@@ -1,0 +1,11 @@
+Room Nos.
+public static int garden = 0;
+public static int Lobby = 1;
+public static int courtYard = 2;
+public static int office = 3;
+public static int recreation_hall = 4;
+
+
+ A Room-
+    room no. - for addressing purposes
+    body and dimensions
