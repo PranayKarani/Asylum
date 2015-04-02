@@ -40,14 +40,14 @@ public abstract class Room{
 
     /**
      *  Abstact method from parent class.<br>
-     *  lets it's children to specify code for what happens when they(child rooms) are created.<br>
+     *  lets it's children to specify code for creating themselves and what happens when they are created.<br>
      *  e.g. A lobby might have different body dimensions than other rooms. This is specified here.
      */
     public abstract void create_room();
 
     /**
      *  Abstact method from parent class.<br>
-     *  lets it's children to specify code for what happens when they update themselves.<br>
+     *  lets it's children to specify code for updating themselves and what happens when they update themselves.<br>
      *  e.g. A lobby might behave differently than other rooms. This is specified here.
      */
     public abstract void update_room();
