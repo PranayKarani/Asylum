@@ -54,7 +54,7 @@ public abstract class Room{
 
     /**
      * Abstact method from parent class.<br>
-     * lets it's children to specify code for what happen when they(child rooms) are destroy.<br>
+     * lets it's children to specify code for their destruction and what happen when they are destroyed.<br>
      */
     public abstract void destroy_room();
 
