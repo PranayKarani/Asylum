@@ -4,44 +4,41 @@ import Secondary.Room;
 import Secondary.RoomManager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.World;
 
 public class Courtyard extends Room {
 
-    private Body body;
-    protected BodyDef bdef;
-    protected FixtureDef fdef;
-    protected PolygonShape shape;
-    protected RoomManager rm;
-
-    public Courtyard(World world){
-        super(world);
-
-        bdef = new BodyDef ();
-        fdef = new FixtureDef ();
-        shape = new PolygonShape ();
-
-        bdef.type = BodyDef.BodyType.StaticBody;
-        bdef.position.set (10,10);
-        body = world.createBody (bdef);
-        shape.setAsBox (70,6);
-        fdef.shape = shape;
-        body.createFixture (fdef);
+    public Courtyard( World world, RoomManager roomManager ) {
+        super (world, roomManager);
+        create_room ();
         System.out.println ("entered courtyard");
+
     }
 
-    public void update(){
+    public void create_room() {
+        bdef.type = BodyDef.BodyType.StaticBody;
+        bdef.position.set (0, 0);
+        body = world.createBody (bdef);
+        shape.setAsBox (100, 5);
+        fdef.shape = shape;
+        body.createFixture (fdef);
+    }
+
+    public void update_room() {
 
         System.out.println ("in courtyard");
-        rm.exitRoom (this);
         if( Gdx.input.isKeyPressed (Input.Keys.D)) {
-            rm.exitRoom (this);
-            rm.setRoom (new Lobby (world));
+            roomManager.exitRoom (this);
+            roomManager.setRoom (new Lobby (world, roomManager));
         }
     }
 
-    public void destroy(){
-        world.destroyBody (body);
+    public void destroy_room() {
+        if ( canDestroyRoom ) {
+            canDestroyRoom = false;
+            world.destroyBody (body);
+        }
     }
 
 }

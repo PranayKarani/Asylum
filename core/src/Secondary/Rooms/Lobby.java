@@ -4,44 +4,42 @@ import Secondary.Room;
 import Secondary.RoomManager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.World;
 
 public class Lobby extends Room {
 
-    private Body body;
-    protected BodyDef bdef;
-    protected FixtureDef fdef;
-    protected PolygonShape shape;
-    protected RoomManager rm;
+    public Lobby( World world, RoomManager roomManager ) {
+        super (world, roomManager);
+        create_room ();
+        System.out.println ("entered lobby");
+    }
 
-    public Lobby( World world ){
-        super(world);
-
-        bdef = new BodyDef ();
-        fdef = new FixtureDef ();
-        shape = new PolygonShape ();
-
+    public void create_room() {
         bdef.type = BodyDef.BodyType.StaticBody;
         bdef.position.set (0,0);
         body = world.createBody (bdef);
         shape.setAsBox (50,5);
         fdef.shape = shape;
         body.createFixture (fdef);
-        System.out.println ("entered lobby");
-
     }
 
-    public void update(){
+    public void update_room() {
 
         System.out.println ("in lobby");
         if( Gdx.input.isKeyPressed (Input.Keys.A)) {
-            rm.exitRoom (this);
-            rm.setRoom (new Courtyard (world));
+            roomManager.exitRoom (this);
+            roomManager.setRoom (new Courtyard (world, roomManager));
         }
     }
 
-    public void destroy(){
-        world.destroyBody (body);
+    public void destroy_room() {
+
+        if ( canDestroyRoom ) {
+            canDestroyRoom = false;
+            world.destroyBody (body);
+        }
+
     }
 
 }

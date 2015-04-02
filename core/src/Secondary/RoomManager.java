@@ -1,5 +1,18 @@
 package Secondary; // 01 Apr, 10:59 PM
 
+/**
+ * RoomManager's purpose it manage transactions of Rooms<br>
+ * RoomManager maintains:
+ * <ul>
+ * <li> Room Nos. of all available rooms
+ * <li> current room
+ * <li> previous room
+ * </ul>
+ * <p/>
+ * RoomManager sets, updates and exits current room<br>
+ * A Room is created, updated and exited through RoomManager<br>
+ * <b>NOTE: Currently Room Nos. are not in use. </b>
+ */
 public class RoomManager {
 
     public final static int garden = 0;
@@ -8,22 +21,35 @@ public class RoomManager {
     public final static int office = 3;
     public final static int recreation_hall = 4;
 
-    public static Room cureentRoom;
+    public static Room currentRoom;
     public static Room previousRoom;
 
-    public static void setRoom(Room room){
-        cureentRoom = room;
+    /**
+     * Sets the specified room as current room.<br>
+     * <b>NOTE: Only current room is updated, so specify the room to be updated by this method</b>
+     * @param room
+     */
+    public void setRoom( Room room ) {
+        currentRoom = room;
     }
 
-    public static void update(){
-        cureentRoom.update ();
+    /**
+     * Updates current specified room.<br>
+     * <b>NOTE: Only current room is updated, so specify the room to be updated by setRoom() method</b>
+     */
+    public void update() {
+        currentRoom.update_room ();
     }
 
-    public static void exitRoom(Room leaveRoom){
+    /**
+     * A Room object(child) is destroyed through this method. <br>
+     * It makes the specified Room as previous room and then calls it's destroy method
+     * @param leaveRoom
+     */
+    public void exitRoom( Room leaveRoom ) {
         previousRoom = leaveRoom;
-        cureentRoom.destroy ();
+        currentRoom.destroy_room ();
     }
-
 
 
 }
