@@ -1,19 +1,13 @@
 package Screens; // 03 Apr, 12:40 PM
 
-import Utilities.GameAssets;
 import com.BotXgames.Asylum.MainGameClass;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 
 public class PlayScreen extends AbstractScreen {
 
-    Texture texture;
-
     public PlayScreen( MainGameClass gameClass ) {
         super (gameClass);
-
-        texture = GameAssets.assetManager.get ("bushes.png", Texture.class);
 
     }
 
@@ -27,10 +21,6 @@ public class PlayScreen extends AbstractScreen {
 
         Gdx.gl.glClearColor (0, 0, 0, 1);
         Gdx.gl.glClear (GL20.GL_COLOR_BUFFER_BIT);
-
-        batch.begin ();
-        batch.draw (texture, 0, 0);
-        batch.end ();
 
     }
 
