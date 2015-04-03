@@ -2,6 +2,8 @@ package Utilities; // 03 Apr, 03:20 PM
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 
 /**
  * Primary purpose of this class is to provide assets to all game screens or anywhere needed.<br>
@@ -26,7 +28,9 @@ public class GameAssets {
     public void queue_Assets() {
 
         // play screen assets
+        assetManager.setLoader (TiledMap.class, new TmxMapLoader ());
         assetManager.load ("bushes.png", Texture.class);
+        assetManager.load ("tmx files/lobby.tmx", TiledMap.class);
         System.out.println ("queued other assets");
 
     }

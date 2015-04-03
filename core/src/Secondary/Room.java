@@ -20,6 +20,7 @@ public abstract class Room{
     protected BodyDef bdef;
     protected FixtureDef fdef;
     protected PolygonShape shape;
+    protected ChainShape chainShape;
     protected RoomManager roomManager;
     protected boolean canDestroyRoom;
 
@@ -33,6 +34,7 @@ public abstract class Room{
         bdef = new BodyDef ();
         fdef = new FixtureDef ();
         shape = new PolygonShape ();
+        chainShape = new ChainShape ();
         this.roomManager = roomManager;
         canDestroyRoom = true;
 
