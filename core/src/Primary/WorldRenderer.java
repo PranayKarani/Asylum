@@ -31,7 +31,7 @@ public class WorldRenderer {
 
         }
 
-
+        CameraManager.smartFollow (cameraManager.gameCam, world.player.getBody (), true);
         CameraManager.controlCam (cameraManager.gameCam);
     }
 

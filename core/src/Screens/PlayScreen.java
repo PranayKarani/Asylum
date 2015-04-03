@@ -4,6 +4,7 @@ import Primary.GameWorld;
 import Primary.WorldRenderer;
 import com.BotXgames.Asylum.MainGameClass;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 
 public class PlayScreen extends AbstractScreen {
@@ -81,12 +82,20 @@ public class PlayScreen extends AbstractScreen {
 
     @Override
     public boolean keyDown( int keycode ) {
-        return false;
+        if ( keycode == Input.Keys.A )
+            world.player.leftPressed = true;
+        if ( keycode == Input.Keys.D )
+            world.player.rightPressed = true;
+        return true;
     }
 
     @Override
     public boolean keyUp( int keycode ) {
-        return false;
+        if ( keycode == Input.Keys.A )
+            world.player.leftPressed = false;
+        if ( keycode == Input.Keys.D )
+            world.player.rightPressed = false;
+        return true;
     }
 
     @Override
