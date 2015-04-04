@@ -32,7 +32,10 @@ public class GameAssets {
         assetManager.load ("bushes.png", Texture.class);
         assetManager.load ("tmx files/lobby.tmx", TiledMap.class);
         assetManager.load ("tmx files/courtyard.tmx", TiledMap.class);
+        assetManager.load ("tmx files/Office.tmx", TiledMap.class);
+        assetManager.load ("tmx files/DayRoom.tmx", TiledMap.class);
         assetManager.load ("tmx files/RCHall.tmx", TiledMap.class);
+        assetManager.load ("tmx files/DrRoom.tmx", TiledMap.class);
         System.out.println ("queued other assets");
 
     }

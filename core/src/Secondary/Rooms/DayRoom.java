@@ -1,4 +1,4 @@
-package Secondary.Rooms; // 01 Apr, 12:34 PM
+package Secondary.Rooms; // 04 Apr, 06:52 PM
 
 import Secondary.Player;
 import Secondary.Room;
@@ -14,7 +14,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
 
-public class Courtyard extends Room {
+public class DayRoom extends Room {
 
     TiledMap tiledMap;
     MapLayer mapLayer;
@@ -22,16 +22,17 @@ public class Courtyard extends Room {
     Vector2[] chainpoints;
     // Doors
     byte noofDoors; // used for creating all door related vectors
-    public static float toRC;
-    public static float toLobby;
-    public static float toDayRoom;
-    public static float toOffice;
-    public static float toDrRoom;
+    public static float toCourtyard;
+    public static float toLaundry;
+    public static float toDiningHall;
+    public static float toSickRoom;
+    public static float toStoreRoom;
 
-    public Courtyard( World world, RoomManager roomManager, Player player ) {
+    public DayRoom( World world, RoomManager roomManager, Player player ) {
         super (world, roomManager, player);
+
         //load tiledmap
-        tiledMap = GameAssets.assetManager.get ("tmx files/courtyard.tmx", TiledMap.class);
+        tiledMap = GameAssets.assetManager.get ("tmx files/DayRoom.tmx", TiledMap.class);
 
         // take shape layer from tiledmap
         mapLayer = tiledMap.getLayers ().get ("structure");
@@ -63,21 +64,22 @@ public class Courtyard extends Room {
             }
         }
 
-        toRC = centers[ 0 ];
-        toLobby = centers[ 1 ];
-        toDayRoom = centers[ 2 ];
-        toOffice = centers[ 3 ];
-        toDrRoom = centers[ 4 ];
+        toSickRoom = centers[ 0 ];
+        toLaundry = centers[ 0 ];
+        toCourtyard = centers[ 1 ];
+        toDiningHall = centers[ 2 ];
+        toStoreRoom = centers[ 3 ];
 
         // create actually Box2D Room Body with data gathered above
         create_room ();
 
         // dispose tiledmap after use
         tiledMap.dispose ();
-        System.out.println ("entered lobby with " + noofDoors + " doors");
+        System.out.println ("entered Day room with " + noofDoors + " doors");
 
     }
 
+    @Override
     public void create_room() {
 
         // create room structure
@@ -88,65 +90,69 @@ public class Courtyard extends Room {
         fdef.shape = chainShape;
         body.createFixture (fdef).setUserData ("room floor");
         chainShape.dispose ();
+
     }
 
+    @Override
     public void update_room() {
 
-        // to Recreation Hall
-        if ( player.getBody ().getPosition ().x > toRC ) {
+        if ( player.getBody ().getPosition ().x < toLaundry ) {
             if ( Player.act ) {
-                roomManager.exitRoom (this);
-                roomManager.setRoom (new RCHall (world, roomManager, player));
-                player.getBody ().setTransform (RCHall.toCourtyard, player.getBody ().getPosition ().y, 0);
-                Player.act = false;
+//                roomManager.exitRoom (this);
+//                roomManager.setRoom (new RCHall (world, roomManager, player));
+//                player.getBody ().setTransform (RCHall.toCourtyard, player.getBody ().getPosition ().y, 0);
+//                Player.act = false;
             } else {
-                System.out.println ("go to RC hall?");
-            }
-        }
-        if ( player.getBody ().getPosition ().x > toLobby - doorLength && player.getBody ().getPosition ().x < toLobby + doorLength ) {
-            if ( Player.act ) {
-                roomManager.exitRoom (this);
-                roomManager.setRoom (new Lobby (world, roomManager, player));
-                player.getBody ().setTransform (Lobby.toCourtyard, player.getBody ().getPosition ().y, 0);
-                Player.act = false;
-            } else {
-                System.out.println ("go to Lobby?");
-            }
-        }
-        if ( player.getBody ().getPosition ().x > toDayRoom - doorLength && player.getBody ().getPosition ().x < toDayRoom + doorLength ) {
-            if ( Player.act ) {
-                roomManager.exitRoom (this);
-                roomManager.setRoom (new DayRoom (world, roomManager, player));
-                player.getBody ().setTransform (DayRoom.toCourtyard, player.getBody ().getPosition ().y, 0);
-                Player.act = false;
-            } else {
-                System.out.println ("go to Day room?");
-            }
-        }
-        if ( player.getBody ().getPosition ().x > toOffice - doorLength && player.getBody ().getPosition ().x < toOffice + doorLength ) {
-            if ( Player.act ) {
-                roomManager.exitRoom (this);
-                roomManager.setRoom (new Office (world, roomManager, player));
-                player.getBody ().setTransform (Office.toCourtyard, player.getBody ().getPosition ().y, 0);
-                Player.act = false;
-            } else {
-                System.out.println ("go to Office?");
-            }
-        }
-        if ( player.getBody ().getPosition ().x < toDrRoom ) {
-            if ( Player.act ) {
-                roomManager.exitRoom (this);
-                roomManager.setRoom (new DrRoom (world, roomManager, player));
-                player.getBody ().setTransform (DrRoom.toCourtyard, player.getBody ().getPosition ().y, 0);
-                Player.act = false;
-            } else {
-                System.out.println ("go to Dr. room?");
+                System.out.println ("go to laundry?");
             }
         }
 
+        if ( player.getBody ().getPosition ().x < toSickRoom ) {
+            if ( Player.act ) {
+//                roomManager.exitRoom (this);
+//                roomManager.setRoom (new RCHall (world, roomManager, player));
+//                player.getBody ().setTransform (RCHall.toCourtyard, player.getBody ().getPosition ().y, 0);
+//                Player.act = false;
+            } else {
+                System.out.println ("go to Sick room?");
+            }
+        }
+
+        if ( player.getBody ().getPosition ().x > toCourtyard - doorLength && player.getBody ().getPosition ().x < toCourtyard + doorLength ) {
+            if ( Player.act ) {
+                roomManager.exitRoom (this);
+                roomManager.setRoom (new Courtyard (world, roomManager, player));
+                player.getBody ().setTransform (Courtyard.toDayRoom, player.getBody ().getPosition ().y, 0);
+                Player.act = false;
+            } else {
+                System.out.println ("go to courtyard?");
+            }
+        }
+        if ( player.getBody ().getPosition ().x > toDiningHall - doorLength && player.getBody ().getPosition ().x < toDiningHall + doorLength ) {
+            if ( Player.act ) {
+//                roomManager.exitRoom (this);
+//                roomManager.setRoom (new DayRoom (world, roomManager, player));
+//                player.getBody ().setTransform (DayRoom.toCourtyard, player.getBody ().getPosition ().y, 0);
+//                Player.act = false;
+            } else {
+                System.out.println ("go to Dining hall?");
+            }
+        }
+        if ( player.getBody ().getPosition ().x > toStoreRoom ) {
+            if ( Player.act ) {
+//                roomManager.exitRoom (this);
+//                roomManager.setRoom (new DrRoom (world, roomManager, player));
+//                player.getBody ().setTransform (Office.toCourtyard, player.getBody ().getPosition ().y, 0);
+//                Player.act = false;
+            } else {
+                System.out.println ("go to store room?");
+            }
+        }
     }
 
+    @Override
     public void destroy_room() {
+
         if ( canDestroyRoom ) {
             canDestroyRoom = false;
             for ( Fixture fixture : body.getFixtureList () ) {
@@ -154,6 +160,6 @@ public class Courtyard extends Room {
             }
             world.destroyBody (body);
         }
-    }
 
+    }
 }

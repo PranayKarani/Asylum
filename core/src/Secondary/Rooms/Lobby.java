@@ -115,7 +115,6 @@ public class Lobby extends Room { // 150cm + 30cm(entrance)
                 body.destroyFixture (fixture);
             }
             world.destroyBody (body);
-            System.out.println ("lobby destroyed");
         }
 
     }

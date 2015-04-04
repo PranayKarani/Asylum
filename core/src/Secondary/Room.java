@@ -22,6 +22,7 @@ public abstract class Room{
     protected FixtureDef fdef;
     protected ChainShape chainShape;
     protected RoomManager roomManager;
+    public static final float doorLength = 75f / 100f;
     protected boolean canDestroyRoom;
 
     /**

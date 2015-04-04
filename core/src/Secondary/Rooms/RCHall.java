@@ -11,6 +11,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Ellipse;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
 
 public class RCHall extends Room {
@@ -104,7 +105,11 @@ public class RCHall extends Room {
     public void destroy_room() {
 
         if ( canDestroyRoom ) {
+
             canDestroyRoom = false;
+            for ( Fixture fixture : body.getFixtureList () ) {
+                body.destroyFixture (fixture);
+            }
             world.destroyBody (body);
         }
 
