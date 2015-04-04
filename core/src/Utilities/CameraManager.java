@@ -14,11 +14,26 @@ public class CameraManager {
 
     public OrthographicCamera gameCam;
     Viewport viewport;
-
+    public OrthographicCamera hudCam;
+    
     public CameraManager() {
         gameCam = new OrthographicCamera ();
         gameCam.setToOrtho (false);
         gameCam.update ();
+
+        hudCam = new OrthographicCamera (Gdx.graphics.getWidth (), Gdx.graphics.getHeight ());
+        hudCam.setToOrtho (false);
+        hudCam.update ();
+
+    }
+
+    public void resize( int width, int height ) {
+        viewport = new FillViewport (1280 / 100, 720 / 100, gameCam);
+        viewport.apply ();
+        viewport.update (width, height);
+
+        hudCam.setToOrtho (false, width, height);
+
     }
 
     public static void controlCam( OrthographicCamera camera ) {
@@ -39,10 +54,5 @@ public class CameraManager {
 
     }
 
-    public void resize( int width, int height ) {
-        viewport = new FillViewport (1280 / 100, 720 / 100, gameCam);
-        viewport.apply ();
-        viewport.update (width, height);
-    }
 
 }

@@ -99,7 +99,7 @@ public class DrRoom extends Room {
                 player.getBody ().setTransform (Courtyard.toDrRoom, player.getBody ().getPosition ().y, 0);
                 Player.act = false;
             } else {
-                System.out.println ("go to courtyard?");
+                message = "go to Courtyard?";
             }
         }
 
@@ -110,15 +110,15 @@ public class DrRoom extends Room {
 //                player.getBody ().setTransform (Courtyard.toDayRoom, player.getBody ().getPosition ().y, 0);
 //                Player.act = false;
             } else {
-                System.out.println ("go to sick room?");
+                message = "go to Sick room?";
             }
         }
 
         if ( player.getBody ().getPosition ().x < toTunnel ) {
             if ( Player.act ) {
-                System.out.println ("entering tunnel");
+                message = "tunnel not available?";
             } else {
-                System.out.println ("go to tunnel?");
+                message = "enter tunnel?";
             }
         }
 

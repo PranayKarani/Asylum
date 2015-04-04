@@ -103,7 +103,7 @@ public class DayRoom extends Room {
 //                player.getBody ().setTransform (RCHall.toCourtyard, player.getBody ().getPosition ().y, 0);
 //                Player.act = false;
             } else {
-                System.out.println ("go to laundry?");
+                message = "go to junction?";
             }
         }
 
@@ -114,7 +114,7 @@ public class DayRoom extends Room {
 //                player.getBody ().setTransform (RCHall.toCourtyard, player.getBody ().getPosition ().y, 0);
 //                Player.act = false;
             } else {
-                System.out.println ("go to Sick room?");
+                message = "go to junction?";
             }
         }
 
@@ -125,7 +125,7 @@ public class DayRoom extends Room {
                 player.getBody ().setTransform (Courtyard.toDayRoom, player.getBody ().getPosition ().y, 0);
                 Player.act = false;
             } else {
-                System.out.println ("go to courtyard?");
+                message = "go to Courtyard?";
             }
         }
         if ( player.getBody ().getPosition ().x > toDiningHall - doorLength && player.getBody ().getPosition ().x < toDiningHall + doorLength ) {
@@ -135,7 +135,7 @@ public class DayRoom extends Room {
 //                player.getBody ().setTransform (DayRoom.toCourtyard, player.getBody ().getPosition ().y, 0);
 //                Player.act = false;
             } else {
-                System.out.println ("go to Dining hall?");
+                message = "go to Dining hall?";
             }
         }
         if ( player.getBody ().getPosition ().x > toStoreRoom ) {
@@ -145,7 +145,7 @@ public class DayRoom extends Room {
 //                player.getBody ().setTransform (Office.toCourtyard, player.getBody ().getPosition ().y, 0);
 //                Player.act = false;
             } else {
-                System.out.println ("go to store room?");
+                message = "go to Store room?";
             }
         }
     }

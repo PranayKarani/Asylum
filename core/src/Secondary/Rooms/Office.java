@@ -95,7 +95,7 @@ public class Office extends Room {
                 player.getBody ().setTransform (Courtyard.toOffice, player.getBody ().getPosition ().y, 0);
                 Player.act = false;
             } else {
-                System.out.println ("go to Courtyard?");
+                message = "go to Courtyard?";
             }
         }
 

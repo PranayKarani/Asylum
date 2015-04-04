@@ -95,7 +95,7 @@ public class RCHall extends Room {
                 player.getBody ().setTransform (Courtyard.toRC, player.getBody ().getPosition ().y, 0);
                 Player.act = false;
             } else {
-                System.out.println ("go to Courtyard?");
+                message = "go to Courtyard?";
             }
         }
 

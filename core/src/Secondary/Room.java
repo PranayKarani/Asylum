@@ -23,6 +23,7 @@ public abstract class Room{
     protected ChainShape chainShape;
     protected RoomManager roomManager;
     public static final float doorLength = 75f / 100f;
+    public static String message; // for debugging purposees only
     protected boolean canDestroyRoom;
 
     /**

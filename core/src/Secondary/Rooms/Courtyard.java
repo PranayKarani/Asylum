@@ -100,9 +100,10 @@ public class Courtyard extends Room {
                 player.getBody ().setTransform (RCHall.toCourtyard, player.getBody ().getPosition ().y, 0);
                 Player.act = false;
             } else {
-                System.out.println ("go to RC hall?");
+                message = "go to RC Hall?";
             }
         }
+
         if ( player.getBody ().getPosition ().x > toLobby - doorLength && player.getBody ().getPosition ().x < toLobby + doorLength ) {
             if ( Player.act ) {
                 roomManager.exitRoom (this);
@@ -110,9 +111,10 @@ public class Courtyard extends Room {
                 player.getBody ().setTransform (Lobby.toCourtyard, player.getBody ().getPosition ().y, 0);
                 Player.act = false;
             } else {
-                System.out.println ("go to Lobby?");
+                message = "go to Lobby?";
             }
         }
+
         if ( player.getBody ().getPosition ().x > toDayRoom - doorLength && player.getBody ().getPosition ().x < toDayRoom + doorLength ) {
             if ( Player.act ) {
                 roomManager.exitRoom (this);
@@ -120,9 +122,10 @@ public class Courtyard extends Room {
                 player.getBody ().setTransform (DayRoom.toCourtyard, player.getBody ().getPosition ().y, 0);
                 Player.act = false;
             } else {
-                System.out.println ("go to Day room?");
+                message = "go to Day room?";
             }
         }
+
         if ( player.getBody ().getPosition ().x > toOffice - doorLength && player.getBody ().getPosition ().x < toOffice + doorLength ) {
             if ( Player.act ) {
                 roomManager.exitRoom (this);
@@ -130,9 +133,10 @@ public class Courtyard extends Room {
                 player.getBody ().setTransform (Office.toCourtyard, player.getBody ().getPosition ().y, 0);
                 Player.act = false;
             } else {
-                System.out.println ("go to Office?");
+                message = "go to Office?";
             }
         }
+
         if ( player.getBody ().getPosition ().x < toDrRoom ) {
             if ( Player.act ) {
                 roomManager.exitRoom (this);
@@ -140,7 +144,7 @@ public class Courtyard extends Room {
                 player.getBody ().setTransform (DrRoom.toCourtyard, player.getBody ().getPosition ().y, 0);
                 Player.act = false;
             } else {
-                System.out.println ("go to Dr. room?");
+                message = "go to Dr. room?";
             }
         }
 

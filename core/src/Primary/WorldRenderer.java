@@ -1,9 +1,13 @@
 package Primary; // 03 Apr, 04:22 PM
 
+import Secondary.Room;
 import Secondary.RoomManager;
 import Secondary.Rooms.Courtyard;
 import Utilities.CameraManager;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
@@ -16,6 +20,7 @@ public class WorldRenderer {
     CameraManager cameraManager;
     Box2DDebugRenderer b2dr;
     ShapeRenderer sr;
+    BitmapFont font;
 
     public WorldRenderer( GameWorld world, SpriteBatch batch ) {
         this.world = world;
@@ -23,6 +28,7 @@ public class WorldRenderer {
         cameraManager = new CameraManager ();
         b2dr = new Box2DDebugRenderer ();
         sr = new ShapeRenderer ();
+        font = new BitmapFont ();
     }
 
     public void resize( int width, int height ) {
@@ -46,6 +52,8 @@ public class WorldRenderer {
                 sr.end ();
             }
 
+            showHUD (batch, cameraManager.hudCam);
+
         } else {
 
         }
@@ -57,4 +65,16 @@ public class WorldRenderer {
     public void dispose() {
         batch.dispose ();
     }
+
+    private void showHUD( SpriteBatch batch, OrthographicCamera camera ) {
+
+        batch.setProjectionMatrix (camera.combined);
+        batch.setShader (null);
+        batch.begin ();
+        font.draw (batch, "   Current room: " + RoomManager.currentRoom.getClass ().getSimpleName (), 0, Gdx.graphics.getHeight () - 2);
+        font.draw (batch, "   " + Room.message, 0, Gdx.graphics.getHeight () - 19);
+        batch.end ();
+
+    }
+
 }
