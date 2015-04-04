@@ -10,7 +10,6 @@ import com.badlogic.gdx.maps.objects.EllipseMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Ellipse;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
@@ -26,8 +25,8 @@ public class Lobby extends Room { // 150cm + 30cm(entrance)
     // Doors
     byte noofDoors; // used for creating all door related vectors
 
-    public Lobby( World world, RoomManager roomManager ) {
-        super (world, roomManager);
+    public Lobby( World world, RoomManager roomManager, Player player ) {
+        super (world, roomManager, player);
 
         //load tiledmap
         tiledMap = GameAssets.assetManager.get ("tmx files/lobby.tmx", TiledMap.class);
@@ -67,6 +66,7 @@ public class Lobby extends Room { // 150cm + 30cm(entrance)
 
         // create actually Box2D Room Body with data gathered above
         create_room ();
+
         // dispose tiledmap after use
         tiledMap.dispose ();
         System.out.println ("entered lobby with " + noofDoors + " doors");
@@ -85,17 +85,19 @@ public class Lobby extends Room { // 150cm + 30cm(entrance)
         chainShape.dispose ();
     }
 
-    public void update_room( Body playerbody ) {
+    public void update_room() {
 
-        if ( playerbody.getPosition ().x < toCourtyard ) {
+        if ( player.getBody ().getPosition ().x < toCourtyard ) {
             if ( Player.act ) {
                 roomManager.exitRoom (this);
-                roomManager.setRoom (new Courtyard (world, roomManager));
+                roomManager.setRoom (new Courtyard (world, roomManager, player));
+                player.getBody ().setTransform (Courtyard.toLobby, player.getBody ().getPosition ().y, 0);
+                Player.act = false;
             } else {
                 System.out.println ("go to courtyard?");
             }
         }
-        if ( playerbody.getPosition ().x > toGarden ) {
+        if ( player.getBody ().getPosition ().x > toGarden ) {
             if ( Player.act ) {
                 System.out.println ("entering garden");
             } else {

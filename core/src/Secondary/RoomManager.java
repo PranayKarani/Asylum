@@ -1,7 +1,5 @@
 package Secondary; // 01 Apr, 10:59 PM
 
-import com.badlogic.gdx.physics.box2d.Body;
-
 /**
  * RoomManager's purpose it manage transactions of Rooms<br>
  * RoomManager maintains:
@@ -38,10 +36,9 @@ public class RoomManager {
     /**
      * Updates current specified room.<br>
      * <b>NOTE: Only current room is updated, so specify the room to be updated by setRoom() method</b>
-     * @param playerBody
      */
-    public void update( Body playerBody ) {
-        currentRoom.update_room (playerBody);
+    public void update() {
+        currentRoom.update_room ();
     }
 
     /**

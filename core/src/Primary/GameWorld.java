@@ -2,7 +2,7 @@ package Primary; // 01 Apr, 11:52 AM
 
 import Secondary.Player;
 import Secondary.RoomManager;
-import Secondary.Rooms.Lobby;
+import Secondary.Rooms.Courtyard;
 import Utilities.MyContactListener;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
@@ -10,16 +10,16 @@ import com.badlogic.gdx.physics.box2d.World;
 public class GameWorld {
 
     public static MyContactListener cl;
-    public Player player;
     RoomManager roomManager;
+    public Player player;
     World world;
 
     public GameWorld() {
 
         world = new World(new Vector2 (0, -10f), true);
-        player = new Player (world);
+        player = new Player (world, new Vector2 (10, 10));
         roomManager = new RoomManager ();
-        roomManager.setRoom (new Lobby (world, roomManager));
+        roomManager.setRoom (new Courtyard (world, roomManager, player));
         cl = new MyContactListener ();
         world.setContactListener (cl);
     }
@@ -27,8 +27,8 @@ public class GameWorld {
     public void update( float delta ) {
 
         world.step (delta, 3, 1);
+        roomManager.update ();
         player.update ();
-        roomManager.update (player.getBody ());
 
     }
 

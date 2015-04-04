@@ -8,6 +8,7 @@ public class Player {
     public static boolean isfacingRight;
     public static boolean istorch_ON;
     public static boolean act;
+    public boolean canDestroy;
     // controls
     public boolean rightPressed, leftPressed, torchToggle;
     public STATE state;
@@ -17,7 +18,7 @@ public class Player {
     FixtureDef fixtureDef;
     PolygonShape shape;
 
-    public Player( World world ) {
+    public Player( World world, Vector2 spawnpoint ) {
         this.world = world;
 
         bodyDef = new BodyDef ();
@@ -25,7 +26,7 @@ public class Player {
         shape = new PolygonShape ();
 
         bodyDef.type = BodyDef.BodyType.DynamicBody;
-        bodyDef.position.set (10, 10);
+        bodyDef.position.set (spawnpoint);
         body = world.createBody (bodyDef);
 
         shape.setAsBox (0.6f / 2, (200 / 100) / 2, body.getLocalCenter (), 0);
@@ -42,7 +43,7 @@ public class Player {
         body.createFixture (fixtureDef).setUserData ("foot");
 
         shape.dispose ();
-
+        canDestroy = true;
         state = STATE.standing;
 
     }
@@ -74,6 +75,14 @@ public class Player {
         }
         if ( (int) body.getLinearVelocity ().x < -2 ) {
             body.setLinearVelocity (-2, body.getLinearVelocity ().y);
+        }
+    }
+
+    public void destroy() {
+
+        if ( canDestroy ) {
+            canDestroy = false;
+            world.destroyBody (body);
         }
     }
 

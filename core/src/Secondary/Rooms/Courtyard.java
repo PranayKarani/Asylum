@@ -10,7 +10,6 @@ import com.badlogic.gdx.maps.objects.EllipseMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Ellipse;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
 
@@ -22,14 +21,15 @@ public class Courtyard extends Room {
     Vector2[] chainpoints;
     // Doors
     byte noofDoors; // used for creating all door related vectors
+    public static final float doorLength = 75f / 100f;
     public static float toRC;
     public static float toLobby;
     public static float toDayRoom;
     public static float toOffice;
     public static float toDrRoom;
 
-    public Courtyard( World world, RoomManager roomManager ) {
-        super (world, roomManager);
+    public Courtyard( World world, RoomManager roomManager, Player player ) {
+        super (world, roomManager, player);
         //load tiledmap
         tiledMap = GameAssets.assetManager.get ("tmx files/courtyard.tmx", TiledMap.class);
 
@@ -71,6 +71,7 @@ public class Courtyard extends Room {
 
         // create actually Box2D Room Body with data gathered above
         create_room ();
+
         // dispose tiledmap after use
         tiledMap.dispose ();
         System.out.println ("entered lobby with " + noofDoors + " doors");
@@ -89,10 +90,46 @@ public class Courtyard extends Room {
         chainShape.dispose ();
     }
 
-    public void update_room( Body playerBody ) {
+    public void update_room() {
 
-        if ( Player.act ) {
-            System.out.println ("ACT!!");
+        // to Recreation Hall
+        if ( player.getBody ().getPosition ().x > toRC ) {
+            if ( Player.act ) {
+                System.out.println ("RC hall not available");
+            } else {
+                System.out.println ("go to RC hall?");
+            }
+        }
+        if ( player.getBody ().getPosition ().x > toLobby - doorLength && player.getBody ().getPosition ().x < toLobby + doorLength ) {
+            if ( Player.act ) {
+                roomManager.exitRoom (this);
+                roomManager.setRoom (new Lobby (world, roomManager, player));
+                player.getBody ().setTransform (Lobby.toCourtyard, player.getBody ().getPosition ().y, 0);
+                Player.act = false;
+            } else {
+                System.out.println ("go to Lobby?");
+            }
+        }
+        if ( player.getBody ().getPosition ().x > toDayRoom - doorLength && player.getBody ().getPosition ().x < toDayRoom + doorLength ) {
+            if ( Player.act ) {
+                System.out.println ("Day room not available");
+            } else {
+                System.out.println ("go to Day room?");
+            }
+        }
+        if ( player.getBody ().getPosition ().x > toOffice - doorLength && player.getBody ().getPosition ().x < toOffice + doorLength ) {
+            if ( Player.act ) {
+                System.out.println ("office not available");
+            } else {
+                System.out.println ("go to Office?");
+            }
+        }
+        if ( player.getBody ().getPosition ().x < toDrRoom ) {
+            if ( Player.act ) {
+                System.out.println ("Dr. room not available");
+            } else {
+                System.out.println ("go to Dr. room?");
+            }
         }
 
     }

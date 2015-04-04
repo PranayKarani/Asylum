@@ -16,6 +16,7 @@ import com.badlogic.gdx.physics.box2d.*;
 public abstract class Room{
 
     protected World world;
+    public Player player;
     protected Body body;
     protected BodyDef bdef;
     protected FixtureDef fdef;
@@ -28,12 +29,13 @@ public abstract class Room{
      * @param world
      * @param roomManager
      */
-    public Room( World world, RoomManager roomManager ) {
+    public Room( World world, RoomManager roomManager, Player player ) {
         this.world = world;
         bdef = new BodyDef ();
         fdef = new FixtureDef ();
         chainShape = new ChainShape ();
         this.roomManager = roomManager;
+        this.player = player;
         canDestroyRoom = true;
 
     }
@@ -50,7 +52,7 @@ public abstract class Room{
      *  lets it's children to specify code for updating themselves and what happens when they update themselves.<br>
      *  e.g. A lobby might behave differently than other rooms. This is specified here.
      */
-    public abstract void update_room( Body body );
+    public abstract void update_room();
 
     /**
      * Abstact method from parent class.<br>

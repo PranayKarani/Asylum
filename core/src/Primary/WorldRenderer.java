@@ -1,6 +1,7 @@
 package Primary; // 03 Apr, 04:22 PM
 
-import Secondary.Rooms.Lobby;
+import Secondary.RoomManager;
+import Secondary.Rooms.Courtyard;
 import Utilities.CameraManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -35,16 +36,19 @@ public class WorldRenderer {
             sr.setProjectionMatrix (cameraManager.gameCam.combined);
             sr.begin (ShapeRenderer.ShapeType.Line);
             sr.setColor (Color.RED);
-            sr.rect (Lobby.toCourtyard, 1f, 0.05f, 1);
+            sr.rect (Courtyard.toRC, 1f, 0.05f, 1);
+            sr.rect (Courtyard.toDrRoom, 1f, 0.05f, 1);
             sr.setColor (Color.GREEN);
-            sr.rect (Lobby.toGarden, 1f, 0.05f, 1);
+            sr.rect (Courtyard.toLobby - Courtyard.doorLength, 1f, (Courtyard.doorLength * 2), 1);
+            sr.rect (Courtyard.toDayRoom - Courtyard.doorLength, 1f, (Courtyard.doorLength * 2), 1);
+            sr.rect (Courtyard.toOffice - Courtyard.doorLength, 1f, (Courtyard.doorLength * 2), 1);
             sr.end ();
 
         } else {
 
         }
 
-        CameraManager.smartFollow (cameraManager.gameCam, world.player.getBody (), true);
+        CameraManager.smartFollow (cameraManager.gameCam, RoomManager.currentRoom.player.getBody (), true);
         CameraManager.controlCam (cameraManager.gameCam);
     }
 
