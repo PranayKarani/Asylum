@@ -7,14 +7,11 @@ import Utilities.GameAssets;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.EllipseMapObject;
-import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Ellipse;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
 public class Courtyard extends Room {
@@ -25,9 +22,11 @@ public class Courtyard extends Room {
     Vector2[] chainpoints;
     // Doors
     byte noofDoors; // used for creating all door related vectors
-    PolygonShape[] Doors;   // store door structre points
-    Vector2[] doorCenter;   // store door centers
-    String[] doorName;      // store door names
+    public static float toRC;
+    public static float toLobby;
+    public static float toDayRoom;
+    public static float toOffice;
+    public static float toDrRoom;
 
     public Courtyard( World world, RoomManager roomManager ) {
         super (world, roomManager);
@@ -55,31 +54,20 @@ public class Courtyard extends Room {
         mapLayer = tiledMap.getLayers ().get ("Doors");
         // count the no.of doors this room has
         noofDoors = (byte) mapLayer.getObjects ().getCount ();
-        // create array for storing door shapes
-        Doors = new PolygonShape[ noofDoors ];
-        // create array for storing door spawn points
-        doorCenter = new Vector2[ noofDoors ];
-        // create array for storing door names
-        doorName = new String[ noofDoors ];
-        // fill all the door related arrays
+        float[] centers = new float[ noofDoors ];
         for ( int i = 0; i < noofDoors; i++ ) {
-            Doors[ i ] = new PolygonShape (); // create empty door shapes
-            doorCenter[ i ] = new Vector2 (); // create empty door spawn points
-            // fill door names
-            doorName[ i ] = mapLayer.getObjects ().get (i).getName ().toString ();
             MapObject mapObject = mapLayer.getObjects ().get (i);
-            if ( mapObject instanceof RectangleMapObject ) {
-                Rectangle rectangle = ((RectangleMapObject) mapObject).getRectangle ();
-                // fill door spawn points
-                doorCenter[ i ].x = (rectangle.x + rectangle.width / 2) / 100;
-                doorCenter[ i ].y = (rectangle.y + rectangle.height / 2) / 100;
-                float width = rectangle.width / 100;
-                float height = rectangle.height / 100;
-                // fill door shapes
-                Doors[ i ].setAsBox (width / 2, height / 2, new Vector2 (0, 0), 0);
+            System.out.println (i + "  = " + mapObject.getName ());
+            if ( mapObject instanceof EllipseMapObject ) {
+                centers[ i ] = ((EllipseMapObject) mapObject).getEllipse ().x / 100;
             }
-
         }
+
+        toRC = centers[ 0 ];
+        toLobby = centers[ 1 ];
+        toDayRoom = centers[ 2 ];
+        toOffice = centers[ 3 ];
+        toDrRoom = centers[ 4 ];
 
         // create actually Box2D Room Body with data gathered above
         create_room ();
@@ -98,18 +86,6 @@ public class Courtyard extends Room {
         chainShape.createChain (chainpoints);
         fdef.shape = chainShape;
         body.createFixture (fdef).setUserData ("room floor");
-
-        // create doors
-        for ( int i = 0; i < noofDoors; i++ ) {
-            mapLayer = tiledMap.getLayers ().get ("Doors");
-            bdef.type = BodyDef.BodyType.StaticBody;
-            bdef.position.set (doorCenter[ i ]);
-            body = world.createBody (bdef);
-            fdef.shape = Doors[ i ];
-            fdef.isSensor = true;
-            body.createFixture (fdef).setUserData (doorName[ i ]);
-            Doors[ i ].dispose ();
-        }
         chainShape.dispose ();
     }
 

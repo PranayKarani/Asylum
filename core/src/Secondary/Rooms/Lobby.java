@@ -17,7 +17,7 @@ import com.badlogic.gdx.physics.box2d.World;
 
 public class Lobby extends Room { // 150cm + 30cm(entrance)
 
-    public static float toCouryard;
+    public static float toCourtyard;
     public static float toGarden;
     TiledMap tiledMap;
     MapLayer mapLayer;
@@ -56,12 +56,13 @@ public class Lobby extends Room { // 150cm + 30cm(entrance)
         float[] centers = new float[ noofDoors ];
         for ( int i = 0; i < noofDoors; i++ ) {
             MapObject mapObject = mapLayer.getObjects ().get (i);
+            System.out.println (i + "  = " + mapObject.getName ());
             if ( mapObject instanceof EllipseMapObject ) {
                 centers[ i ] = ((EllipseMapObject) mapObject).getEllipse ().x / 100;
             }
         }
 
-        toCouryard = centers[ 0 ];
+        toCourtyard = centers[ 0 ];
         toGarden = centers[ 1 ];
 
         // create actually Box2D Room Body with data gathered above
@@ -86,7 +87,7 @@ public class Lobby extends Room { // 150cm + 30cm(entrance)
 
     public void update_room( Body playerbody ) {
 
-        if ( playerbody.getPosition ().x < toCouryard ) {
+        if ( playerbody.getPosition ().x < toCourtyard ) {
             if ( Player.act ) {
                 roomManager.exitRoom (this);
                 roomManager.setRoom (new Courtyard (world, roomManager));

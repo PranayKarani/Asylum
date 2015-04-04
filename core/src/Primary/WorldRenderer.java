@@ -35,7 +35,7 @@ public class WorldRenderer {
             sr.setProjectionMatrix (cameraManager.gameCam.combined);
             sr.begin (ShapeRenderer.ShapeType.Line);
             sr.setColor (Color.RED);
-            sr.rect (Lobby.toCouryard, 1f, 0.05f, 1);
+            sr.rect (Lobby.toCourtyard, 1f, 0.05f, 1);
             sr.setColor (Color.GREEN);
             sr.rect (Lobby.toGarden, 1f, 0.05f, 1);
             sr.end ();
