@@ -1,4 +1,4 @@
-package Secondary.Rooms; // 01 Apr, 12:13 PM
+package Secondary.Rooms; // 04 Apr, 11:13 PM
 
 import Secondary.Player;
 import Secondary.Room;
@@ -14,29 +14,28 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
 
-public class Lobby extends Room { // 150cm + 30cm(entrance)
+public class Garden extends Room {
 
-    public static float toCourtyard;
-    public static float toGarden;
     TiledMap tiledMap;
     MapLayer mapLayer;
     byte noofPoints;
     Vector2[] chainpoints;
     // Doors
     byte noofDoors; // used for creating all door related vectors
+    public static float toLobby;
 
-    public Lobby( World world, RoomManager roomManager, Player player ) {
+    public Garden( World world, RoomManager roomManager, Player player ) {
         super (world, roomManager, player);
 
         //load tiledmap
-        tiledMap = GameAssets.assetManager.get ("tmx files/lobby.tmx", TiledMap.class);
+        tiledMap = GameAssets.assetManager.get ("tmx files/Garden.tmx", TiledMap.class);
 
         // take shape layer from tiledmap
         mapLayer = tiledMap.getLayers ().get ("structure");
         // count structure points (edges)
         for ( MapObject ignored : mapLayer.getObjects () ) noofPoints++;
         // create array for chain objects from points
-        chainpoints = new Vector2[noofPoints];
+        chainpoints = new Vector2[ noofPoints ];
         // fill that chain object
         for ( int i = 0; i < noofPoints; i++ ) {
             MapObject mapObject = mapLayer.getObjects ().get (i);
@@ -61,55 +60,48 @@ public class Lobby extends Room { // 150cm + 30cm(entrance)
             }
         }
 
-        toCourtyard = centers[ 0 ];
-        toGarden = centers[ 1 ];
+        toLobby = centers[ 0 ];
 
         // create actually Box2D Room Body with data gathered above
         create_room ();
 
         // dispose tiledmap after use
         tiledMap.dispose ();
-        System.out.println ("entered lobby with " + noofDoors + " doors");
+        System.out.println ("entered Garden with " + noofDoors + " doors");
 
     }
 
+    @Override
     public void create_room() {
 
         // create room structure
         bdef.type = BodyDef.BodyType.StaticBody;
-        bdef.position.set (0,0);
+        bdef.position.set (0, 0);
         body = world.createBody (bdef);
         chainShape.createChain (chainpoints);
         fdef.shape = chainShape;
         body.createFixture (fdef).setUserData ("room floor");
         chainShape.dispose ();
+
     }
 
+    @Override
     public void update_room() {
 
-        if ( player.getBody ().getPosition ().x < toCourtyard ) {
+        if ( player.getBody ().getPosition ().x > toLobby - doorLength && player.getBody ().getPosition ().x < toLobby + doorLength ) {
             if ( Player.act ) {
                 roomManager.exitRoom (this);
-                roomManager.setRoom (new Courtyard (world, roomManager, player));
-                player.getBody ().setTransform (Courtyard.toLobby, player.getBody ().getPosition ().y, 0);
+                roomManager.setRoom (new Lobby (world, roomManager, player));
+                player.getBody ().setTransform (Lobby.toGarden, player.getBody ().getPosition ().y, 0);
                 Player.act = false;
             } else {
-                message = "go to Courtyard?";
-            }
-        }
-        if ( player.getBody ().getPosition ().x > toGarden ) {
-            if ( Player.act ) {
-                roomManager.exitRoom (this);
-                roomManager.setRoom (new Garden (world, roomManager, player));
-                player.getBody ().setTransform (Garden.toLobby, player.getBody ().getPosition ().y, 0);
-                Player.act = false;
-            } else {
-                message = "go to Garden?";
+                message = "go to Lobby?";
             }
         }
 
     }
 
+    @Override
     public void destroy_room() {
 
         if ( canDestroyRoom ) {
@@ -121,5 +113,4 @@ public class Lobby extends Room { // 150cm + 30cm(entrance)
         }
 
     }
-
 }
