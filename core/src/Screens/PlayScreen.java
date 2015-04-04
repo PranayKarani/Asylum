@@ -2,6 +2,7 @@ package Screens; // 03 Apr, 12:40 PM
 
 import Primary.GameWorld;
 import Primary.WorldRenderer;
+import Secondary.Player;
 import com.BotXgames.Asylum.MainGameClass;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -86,6 +87,8 @@ public class PlayScreen extends AbstractScreen {
             world.player.leftPressed = true;
         if ( keycode == Input.Keys.D )
             world.player.rightPressed = true;
+        if ( keycode == Input.Keys.X )
+            Player.act = true;
         return true;
     }
 
@@ -95,6 +98,9 @@ public class PlayScreen extends AbstractScreen {
             world.player.leftPressed = false;
         if ( keycode == Input.Keys.D )
             world.player.rightPressed = false;
+        if ( keycode == Input.Keys.X ) {
+            Player.act = false;
+        }
         return true;
     }
 

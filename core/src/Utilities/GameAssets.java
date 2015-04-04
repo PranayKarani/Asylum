@@ -31,6 +31,7 @@ public class GameAssets {
         assetManager.setLoader (TiledMap.class, new TmxMapLoader ());
         assetManager.load ("bushes.png", Texture.class);
         assetManager.load ("tmx files/lobby.tmx", TiledMap.class);
+        assetManager.load ("tmx files/courtyard.tmx", TiledMap.class);
         System.out.println ("queued other assets");
 
     }

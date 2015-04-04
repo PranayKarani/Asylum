@@ -1,5 +1,7 @@
 package Secondary; // 01 Apr, 10:59 PM
 
+import com.badlogic.gdx.physics.box2d.Body;
+
 /**
  * RoomManager's purpose it manage transactions of Rooms<br>
  * RoomManager maintains:
@@ -15,11 +17,11 @@ package Secondary; // 01 Apr, 10:59 PM
  */
 public class RoomManager {
 
-    public final static int garden = 0;
-    public final static int Lobby = 1;
-    public final static int courtYard = 2;
-    public final static int office = 3;
-    public final static int recreation_hall = 4;
+    public final static byte garden = 0;
+    public final static byte Lobby = 1;
+    public final static byte courtYard = 2;
+    public final static byte office = 3;
+    public final static byte recreation_hall = 4;
 
     public static Room currentRoom;
     public static Room previousRoom;
@@ -36,9 +38,10 @@ public class RoomManager {
     /**
      * Updates current specified room.<br>
      * <b>NOTE: Only current room is updated, so specify the room to be updated by setRoom() method</b>
+     * @param playerBody
      */
-    public void update() {
-        currentRoom.update_room ();
+    public void update( Body playerBody ) {
+        currentRoom.update_room (playerBody);
     }
 
     /**

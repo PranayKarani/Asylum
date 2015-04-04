@@ -4,8 +4,6 @@ import com.badlogic.gdx.physics.box2d.*;
 
 public class MyContactListener implements ContactListener {
 
-    public int jumpCounter;
-    private int onGround;
     private boolean isDead;
 
     @Override
@@ -16,18 +14,15 @@ public class MyContactListener implements ContactListener {
 
         if ( fa == null || fb == null ) return;
 
-        if ( fb != null && fb.getUserData ().equals ("player") && fa != null && fa.getUserData ().equals ("toCourtyard") ) {
-            System.out.println ("enter courtyard?");
-        }
-
-        if ( fa != null && fa.getUserData ().equals ("player") && fb != null && fb.getUserData ().equals ("room floor") ) {
-            System.out.println ("enter garden?");
-        }
-
     }
 
     @Override
     public void endContact( Contact contact ) {
+
+        Fixture fa = contact.getFixtureA ();
+        Fixture fb = contact.getFixtureB ();
+
+        if ( fa == null || fb == null ) return;
 
     }
 
@@ -41,7 +36,8 @@ public class MyContactListener implements ContactListener {
 
     }
 
-    public boolean isOnGround() {
-        return onGround > 0;
+    public boolean isDead() {
+        return isDead;
     }
+
 }

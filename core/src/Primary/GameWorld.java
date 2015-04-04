@@ -28,6 +28,7 @@ public class GameWorld {
 
         world.step (delta, 3, 1);
         player.update ();
+        roomManager.update (player.getBody ());
 
     }
 

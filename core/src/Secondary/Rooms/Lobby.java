@@ -1,38 +1,44 @@
 package Secondary.Rooms; // 01 Apr, 12:13 PM
 
+import Secondary.Player;
 import Secondary.Room;
 import Secondary.RoomManager;
 import Utilities.GameAssets;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.EllipseMapObject;
-import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Ellipse;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
 
 public class Lobby extends Room { // 150cm + 30cm(entrance)
 
+    public static float toCouryard;
+    public static float toGarden;
     TiledMap tiledMap;
     MapLayer mapLayer;
-    int noofPoints;
-    int noofDoors;
-    PolygonShape[] Doors;
+    byte noofPoints;
     Vector2[] chainpoints;
-    Vector2[] doorCenter;
+    // Doors
+    byte noofDoors; // used for creating all door related vectors
 
     public Lobby( World world, RoomManager roomManager ) {
         super (world, roomManager);
+
+        //load tiledmap
         tiledMap = GameAssets.assetManager.get ("tmx files/lobby.tmx", TiledMap.class);
-        mapLayer = tiledMap.getLayers ().get ("shape");
-        for ( MapObject mapObject : mapLayer.getObjects () ) noofPoints++;
+
+        // take shape layer from tiledmap
+        mapLayer = tiledMap.getLayers ().get ("structure");
+        // count structure points (edges)
+        for ( MapObject ignored : mapLayer.getObjects () ) noofPoints++;
+        // create array for chain objects from points
         chainpoints = new Vector2[noofPoints];
+        // fill that chain object
         for ( int i = 0; i < noofPoints; i++ ) {
             MapObject mapObject = mapLayer.getObjects ().get (i);
             if ( mapObject instanceof EllipseMapObject ) {
@@ -42,63 +48,71 @@ public class Lobby extends Room { // 150cm + 30cm(entrance)
                 chainpoints[ i ] = new Vector2 (eX, eY);
             }
         }
-        noofDoors = tiledMap.getLayers ().get ("Doors").getObjects ().getCount ();
-        Doors = new PolygonShape[ noofDoors ];
-        doorCenter = new Vector2[ noofDoors ];
-        mapLayer = tiledMap.getLayers ().get ("Doors");
-        for ( int i = 0; i < noofDoors; i++ ) {
-            Doors[ i ] = new PolygonShape ();
-            doorCenter[ i ] = new Vector2 ();
-            MapObject mapObject = mapLayer.getObjects ().get (i);
-            if ( mapObject instanceof RectangleMapObject ) {
-                Rectangle rectangle = ((RectangleMapObject) mapObject).getRectangle ();
-                doorCenter[ i ].x = (rectangle.x + rectangle.width / 2) / 100;
-                doorCenter[ i ].y = (rectangle.y + rectangle.height / 2) / 100;
-                float width = rectangle.width / 100;
-                float height = rectangle.height / 100;
-                Doors[ i ].setAsBox (width / 2, height / 2, new Vector2 (0, 0), 0);
-            }
 
+        // take Doors layer from the tiledmap
+        mapLayer = tiledMap.getLayers ().get ("Doors");
+        // count the no.of doors this room has
+        noofDoors = (byte) mapLayer.getObjects ().getCount ();
+        float[] centers = new float[ noofDoors ];
+        for ( int i = 0; i < noofDoors; i++ ) {
+            MapObject mapObject = mapLayer.getObjects ().get (i);
+            if ( mapObject instanceof EllipseMapObject ) {
+                centers[ i ] = ((EllipseMapObject) mapObject).getEllipse ().x / 100;
+            }
         }
+
+        toCouryard = centers[ 0 ];
+        toGarden = centers[ 1 ];
+
+        // create actually Box2D Room Body with data gathered above
         create_room ();
+        // dispose tiledmap after use
+        tiledMap.dispose ();
         System.out.println ("entered lobby with " + noofDoors + " doors");
+
     }
 
     public void create_room() {
-        // create room shape
+
+        // create room structure
         bdef.type = BodyDef.BodyType.StaticBody;
         bdef.position.set (0,0);
         body = world.createBody (bdef);
         chainShape.createChain (chainpoints);
         fdef.shape = chainShape;
         body.createFixture (fdef).setUserData ("room floor");
-
-        for ( int i = 0; i < noofDoors; i++ ) {
-            mapLayer = tiledMap.getLayers ().get ("Doors");
-            bdef.type = BodyDef.BodyType.StaticBody;
-            bdef.position.set (doorCenter[ i ]);
-            body = world.createBody (bdef);
-            fdef.shape = Doors[ i ];
-            fdef.isSensor = true;
-            body.createFixture (fdef).setUserData (mapLayer.getObjects ().get (i).getName ().toString ());
-            Doors[ i ].dispose ();
-        }
+        chainShape.dispose ();
     }
 
-    public void update_room() {
+    public void update_room( Body playerbody ) {
 
-        System.out.println ("in lobby");
-        if( Gdx.input.isKeyPressed (Input.Keys.A)) {
-            roomManager.exitRoom (this);
-            roomManager.setRoom (new Courtyard (world, roomManager));
+        if ( playerbody.getPosition ().x < toCouryard ) {
+            if ( Player.act ) {
+                roomManager.exitRoom (this);
+                roomManager.setRoom (new Courtyard (world, roomManager));
+            } else {
+                System.out.println ("go to courtyard?");
+            }
         }
+        if ( playerbody.getPosition ().x > toGarden ) {
+            if ( Player.act ) {
+                System.out.println ("entering garden");
+            } else {
+                System.out.println ("go to garden?");
+            }
+        }
+
     }
 
     public void destroy_room() {
 
         if ( canDestroyRoom ) {
             canDestroyRoom = false;
+            for ( Fixture fixture : body.getFixtureList () ) {
+                body.destroyFixture (fixture);
+            }
             world.destroyBody (body);
+            System.out.println ("lobby destroyed");
         }
 
     }

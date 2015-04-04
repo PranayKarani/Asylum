@@ -19,7 +19,6 @@ public abstract class Room{
     protected Body body;
     protected BodyDef bdef;
     protected FixtureDef fdef;
-    protected PolygonShape shape;
     protected ChainShape chainShape;
     protected RoomManager roomManager;
     protected boolean canDestroyRoom;
@@ -33,7 +32,6 @@ public abstract class Room{
         this.world = world;
         bdef = new BodyDef ();
         fdef = new FixtureDef ();
-        shape = new PolygonShape ();
         chainShape = new ChainShape ();
         this.roomManager = roomManager;
         canDestroyRoom = true;
@@ -52,7 +50,7 @@ public abstract class Room{
      *  lets it's children to specify code for updating themselves and what happens when they update themselves.<br>
      *  e.g. A lobby might behave differently than other rooms. This is specified here.
      */
-    public abstract void update_room();
+    public abstract void update_room( Body body );
 
     /**
      * Abstact method from parent class.<br>

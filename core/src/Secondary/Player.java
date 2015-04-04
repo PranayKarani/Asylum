@@ -1,6 +1,5 @@
 package Secondary; // 03 Apr, 07:53 PM
 
-import Primary.GameWorld;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 
@@ -8,8 +7,9 @@ public class Player {
 
     public static boolean isfacingRight;
     public static boolean istorch_ON;
+    public static boolean act;
     // controls
-    public boolean rightPressed, leftPressed, jumpPressed, duckPressed, torchToggle;
+    public boolean rightPressed, leftPressed, torchToggle;
     public STATE state;
     World world;
     Body body;
@@ -38,7 +38,7 @@ public class Player {
                                new Vector2 (body.getLocalCenter ().x, body.getLocalCenter ().y - (200 / 100) / 2),
                                0);
         fixtureDef.shape = shape;
-        fixtureDef.isSensor = true;
+        fixtureDef.isSensor = false;
         body.createFixture (fixtureDef).setUserData ("foot");
 
         shape.dispose ();
@@ -62,19 +62,6 @@ public class Player {
 
         }
 
-
-        if ( jumpPressed && GameWorld.cl.isOnGround () ) {
-
-            body.applyForceToCenter (0, 100, true);
-            GameWorld.cl.jumpCounter++;
-        }
-
-        if ( duckPressed ) {
-
-            // change the animation and player pose here..
-            // also reduce the speed a bit
-
-        }
         if ( torchToggle ) {
 
             istorch_ON = !istorch_ON;
@@ -93,7 +80,7 @@ public class Player {
     public Body getBody() {
         return body;
     }
-    
+
     public enum STATE {running, standing, jumping}
 
 }

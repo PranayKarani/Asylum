@@ -17,7 +17,7 @@ public class CameraManager {
 
     public CameraManager() {
         gameCam = new OrthographicCamera ();
-        gameCam.setToOrtho (false, Gdx.graphics.getWidth () / 100, Gdx.graphics.getHeight () / 100);
+        gameCam.setToOrtho (false);
         gameCam.update ();
     }
 

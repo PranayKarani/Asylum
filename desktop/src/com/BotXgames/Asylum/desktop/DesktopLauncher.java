@@ -8,7 +8,7 @@ public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 
-		boolean highRes = true;
+		boolean highRes = false;
 
 		config.width = highRes? 1280 : 800;
 		config.height = highRes? 720 : 480;
