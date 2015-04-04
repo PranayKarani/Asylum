@@ -52,14 +52,14 @@ public class Player {
         if ( rightPressed && !leftPressed ) {
 
             isfacingRight = true;
-            body.applyForceToCenter (10, 0, true);
+            body.applyForceToCenter (20, 0, true);
 
         }
 
         if ( leftPressed && !rightPressed ) {
 
             isfacingRight = false;
-            body.applyForceToCenter (-10, 0, true);
+            body.applyForceToCenter (-20, 0, true);
 
         }
 
@@ -70,11 +70,11 @@ public class Player {
         }
 
         // velocity control..
-        if ( (int) body.getLinearVelocity ().x > 2 ) {
-            body.setLinearVelocity (2, body.getLinearVelocity ().y);
+        if ( (int) body.getLinearVelocity ().x > 3 ) {
+            body.setLinearVelocity (3, body.getLinearVelocity ().y);
         }
-        if ( (int) body.getLinearVelocity ().x < -2 ) {
-            body.setLinearVelocity (-2, body.getLinearVelocity ().y);
+        if ( (int) body.getLinearVelocity ().x < -3 ) {
+            body.setLinearVelocity (-3, body.getLinearVelocity ().y);
         }
     }
 
