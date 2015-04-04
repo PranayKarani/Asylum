@@ -33,16 +33,18 @@ public class WorldRenderer {
 
         if(debug){
             b2dr.render (world.world, cameraManager.gameCam.combined);
-            sr.setProjectionMatrix (cameraManager.gameCam.combined);
-            sr.begin (ShapeRenderer.ShapeType.Line);
-            sr.setColor (Color.RED);
-            sr.rect (Courtyard.toRC, 1f, 0.05f, 1);
-            sr.rect (Courtyard.toDrRoom, 1f, 0.05f, 1);
-            sr.setColor (Color.GREEN);
-            sr.rect (Courtyard.toLobby - Courtyard.doorLength, 1f, (Courtyard.doorLength * 2), 1);
-            sr.rect (Courtyard.toDayRoom - Courtyard.doorLength, 1f, (Courtyard.doorLength * 2), 1);
-            sr.rect (Courtyard.toOffice - Courtyard.doorLength, 1f, (Courtyard.doorLength * 2), 1);
-            sr.end ();
+            if ( RoomManager.currentRoom instanceof Courtyard ) {
+                sr.setProjectionMatrix (cameraManager.gameCam.combined);
+                sr.begin (ShapeRenderer.ShapeType.Line);
+                sr.setColor (Color.RED);
+                sr.rect (Courtyard.toRC, 1f, 0.05f, 1);
+                sr.rect (Courtyard.toDrRoom, 1f, 0.05f, 1);
+                sr.setColor (Color.GREEN);
+                sr.rect (Courtyard.toLobby - Courtyard.doorLength, 1f, (Courtyard.doorLength * 2), 1);
+                sr.rect (Courtyard.toDayRoom - Courtyard.doorLength, 1f, (Courtyard.doorLength * 2), 1);
+                sr.rect (Courtyard.toOffice - Courtyard.doorLength, 1f, (Courtyard.doorLength * 2), 1);
+                sr.end ();
+            }
 
         } else {
 
