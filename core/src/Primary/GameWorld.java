@@ -1,5 +1,6 @@
 package Primary; // 01 Apr, 11:52 AM
 
+import Screens.AbstractScreen;
 import Secondary.Player;
 import Secondary.RoomManager;
 import Secondary.Rooms.Courtyard;
@@ -13,13 +14,14 @@ public class GameWorld {
     RoomManager roomManager;
     public Player player;
     World world;
+    AbstractScreen screen; // screen which contains world ( mostly PlayScreen )
 
-    public GameWorld() {
-
+    public GameWorld( AbstractScreen screen ) {
+        this.screen = screen;
         world = new World(new Vector2 (0, -10f), true);
         player = new Player (world, new Vector2 (10, 10));
         roomManager = new RoomManager ();
-        roomManager.setRoom (new Courtyard (world, roomManager, player));
+        roomManager.setRoom (new Courtyard (world, roomManager, player, screen));
         cl = new MyContactListener ();
         world.setContactListener (cl);
     }

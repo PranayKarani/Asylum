@@ -1,5 +1,6 @@
 package Secondary.Rooms; // 04 Apr, 10:08 PM
 
+import Screens.AbstractScreen;
 import Secondary.Player;
 import Secondary.Room;
 import Secondary.RoomManager;
@@ -26,8 +27,8 @@ public class Laundry extends Room {
     public static float toSickRoom;
     public static float toDormitory;
 
-    public Laundry( World world, RoomManager roomManager, Player player ) {
-        super (world, roomManager, player);
+    public Laundry( World world, RoomManager roomManager, Player player, AbstractScreen screen ) {
+        super (world, roomManager, player, screen);
 
         //load tiledmap
         tiledMap = GameAssets.assetManager.get ("tmx files/Laundry.tmx", TiledMap.class);
@@ -94,7 +95,7 @@ public class Laundry extends Room {
 
         if ( player.getBody ().getPosition ().x < toDormitory ) {
             if ( Player.act ) {
-                System.out.println ("tunnel not avaiable");
+                System.out.println ("Dormitory not avaiable");
             } else {
                 message = "go to Dormitory?";
             }

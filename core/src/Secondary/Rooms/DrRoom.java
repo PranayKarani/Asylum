@@ -1,5 +1,6 @@
 package Secondary.Rooms; // 04 Apr, 07:05 PM
 
+import Screens.AbstractScreen;
 import Secondary.Player;
 import Secondary.Room;
 import Secondary.RoomManager;
@@ -26,8 +27,8 @@ public class DrRoom extends Room {
     public static float toSickRoom;
     public static float toCourtyard;
 
-    public DrRoom( World world, RoomManager roomManager, Player player ) {
-        super (world, roomManager, player);
+    public DrRoom( World world, RoomManager roomManager, Player player, AbstractScreen screen ) {
+        super (world, roomManager, player, screen);
 
         //load tiledmap
         tiledMap = GameAssets.assetManager.get ("tmx files/DrRoom.tmx", TiledMap.class);
@@ -95,7 +96,7 @@ public class DrRoom extends Room {
         if ( player.getBody ().getPosition ().x > toCourtyard ) {
             if ( Player.act ) {
                 roomManager.exitRoom (this);
-                roomManager.setRoom (new Courtyard (world, roomManager, player));
+                roomManager.setRoom (new Courtyard (world, roomManager, player, screen));
                 player.getBody ().setTransform (Courtyard.toDrRoom, player.getBody ().getPosition ().y, 0);
                 Player.act = false;
             } else {

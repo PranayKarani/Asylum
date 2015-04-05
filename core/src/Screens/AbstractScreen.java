@@ -14,7 +14,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
  */
 public abstract class AbstractScreen implements Screen, InputProcessor {
 
-    protected MainGameClass gameClass;
+    public MainGameClass gameClass;
     protected SpriteBatch batch;
 
     public AbstractScreen( MainGameClass gameClass ) {

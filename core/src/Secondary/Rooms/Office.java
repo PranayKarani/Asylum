@@ -1,5 +1,6 @@
 package Secondary.Rooms; // 04 Apr, 06:51 PM
 
+import Screens.AbstractScreen;
 import Secondary.Player;
 import Secondary.Room;
 import Secondary.RoomManager;
@@ -24,8 +25,8 @@ public class Office extends Room {
     byte noofDoors; // used for creating all door related vectors
     public static float toCourtyard;
 
-    public Office( World world, RoomManager roomManager, Player player ) {
-        super (world, roomManager, player);
+    public Office( World world, RoomManager roomManager, Player player, AbstractScreen screen ) {
+        super (world, roomManager, player, screen);
 
         //load tiledmap
         tiledMap = GameAssets.assetManager.get ("tmx files/Office.tmx", TiledMap.class);
@@ -91,7 +92,7 @@ public class Office extends Room {
         if ( player.getBody ().getPosition ().x > toCourtyard - doorLength && player.getBody ().getPosition ().x < toCourtyard + doorLength ) {
             if ( Player.act ) {
                 roomManager.exitRoom (this);
-                roomManager.setRoom (new Courtyard (world, roomManager, player));
+                roomManager.setRoom (new Courtyard (world, roomManager, player, screen));
                 player.getBody ().setTransform (Courtyard.toOffice, player.getBody ().getPosition ().y, 0);
                 Player.act = false;
             } else {

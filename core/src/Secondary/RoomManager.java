@@ -1,5 +1,8 @@
 package Secondary; // 01 Apr, 10:59 PM
 
+import Screens.AbstractScreen;
+import com.badlogic.gdx.Gdx;
+
 /**
  * RoomManager's purpose it manage transactions of Rooms<br>
  * RoomManager maintains:
@@ -51,5 +54,19 @@ public class RoomManager {
         currentRoom.destroy_room ();
     }
 
+    public void room_to_junction( AbstractScreen junctionScreen ) {
+        currentRoom.previousScreen = currentRoom.screen;
+        if ( currentRoom.previousScreen != null ) currentRoom.previousScreen.pause ();
+        currentRoom.screen = junctionScreen;
+        if ( currentRoom.screen != null ) {
+            currentRoom.screen.show ();
+            currentRoom.screen.resize (Gdx.graphics.getWidth (), Gdx.graphics.getHeight ());
+        }
+
+    }
+
+    public void junction_to_room( Room room ) {
+
+    }
 
 }

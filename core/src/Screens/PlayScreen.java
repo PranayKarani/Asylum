@@ -10,8 +10,9 @@ import com.badlogic.gdx.graphics.GL20;
 
 public class PlayScreen extends AbstractScreen {
 
-    boolean isPaused;
-    boolean viewMap;
+    public static boolean isPaused;
+    public static boolean viewMap;
+    public static boolean onJuction;
 
     GameWorld world;
     WorldRenderer renderer;
@@ -25,7 +26,7 @@ public class PlayScreen extends AbstractScreen {
     @Override
     public void show() {
 
-        world = new GameWorld ();
+        world = new GameWorld (this);
         renderer = new WorldRenderer (world, batch);
 
     }
@@ -43,6 +44,10 @@ public class PlayScreen extends AbstractScreen {
 
             if ( viewMap ) {
                 // view map
+            } else if ( onJuction ) {
+
+
+
             } else {
                 pause ();
             }
@@ -98,9 +103,9 @@ public class PlayScreen extends AbstractScreen {
             world.player.leftPressed = false;
         if ( keycode == Input.Keys.D )
             world.player.rightPressed = false;
-        if ( keycode == Input.Keys.X ) {
+        if ( keycode == Input.Keys.X )
             Player.act = false;
-        }
+
         return true;
     }
 

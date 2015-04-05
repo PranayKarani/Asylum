@@ -1,5 +1,6 @@
 package Secondary; // 01 Apr, 12:01 PM
 
+import Screens.AbstractScreen;
 import com.badlogic.gdx.physics.box2d.*;
 
 /**
@@ -22,6 +23,8 @@ public abstract class Room{
     protected FixtureDef fdef;
     protected ChainShape chainShape;
     protected RoomManager roomManager;
+    protected AbstractScreen screen;
+    protected AbstractScreen previousScreen;
     public static final float doorLength = 75f / 100f;
     public static String message; // for debugging purposees only
     protected boolean canDestroyRoom;
@@ -31,13 +34,14 @@ public abstract class Room{
      * @param world
      * @param roomManager
      */
-    public Room( World world, RoomManager roomManager, Player player ) {
+    public Room( World world, RoomManager roomManager, Player player, AbstractScreen screen ) {
         this.world = world;
         bdef = new BodyDef ();
         fdef = new FixtureDef ();
         chainShape = new ChainShape ();
         this.roomManager = roomManager;
         this.player = player;
+        this.screen = screen;
         canDestroyRoom = true;
 
     }

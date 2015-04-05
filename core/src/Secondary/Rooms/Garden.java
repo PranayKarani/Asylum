@@ -1,5 +1,6 @@
 package Secondary.Rooms; // 04 Apr, 11:13 PM
 
+import Screens.AbstractScreen;
 import Secondary.Player;
 import Secondary.Room;
 import Secondary.RoomManager;
@@ -24,8 +25,8 @@ public class Garden extends Room {
     byte noofDoors; // used for creating all door related vectors
     public static float toLobby;
 
-    public Garden( World world, RoomManager roomManager, Player player ) {
-        super (world, roomManager, player);
+    public Garden( World world, RoomManager roomManager, Player player, AbstractScreen screen ) {
+        super (world, roomManager, player, screen);
 
         //load tiledmap
         tiledMap = GameAssets.assetManager.get ("tmx files/Garden.tmx", TiledMap.class);
@@ -91,7 +92,7 @@ public class Garden extends Room {
         if ( player.getBody ().getPosition ().x > toLobby - doorLength && player.getBody ().getPosition ().x < toLobby + doorLength ) {
             if ( Player.act ) {
                 roomManager.exitRoom (this);
-                roomManager.setRoom (new Lobby (world, roomManager, player));
+                roomManager.setRoom (new Lobby (world, roomManager, player, screen));
                 player.getBody ().setTransform (Lobby.toGarden, player.getBody ().getPosition ().y, 0);
                 Player.act = false;
             } else {

@@ -1,9 +1,12 @@
 package Secondary.Rooms; // 04 Apr, 06:52 PM
 
+import Screens.AbstractScreen;
+import Screens.JunctionScreen;
 import Secondary.Player;
 import Secondary.Room;
 import Secondary.RoomManager;
 import Utilities.GameAssets;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.EllipseMapObject;
@@ -27,9 +30,10 @@ public class DayRoom extends Room {
     public static float toDiningHall;
     public static float toSickRoom;
     public static float toStoreRoom;
+    public static float toJunction;
 
-    public DayRoom( World world, RoomManager roomManager, Player player ) {
-        super (world, roomManager, player);
+    public DayRoom( World world, RoomManager roomManager, Player player, AbstractScreen screen ) {
+        super (world, roomManager, player, screen);
 
         //load tiledmap
         tiledMap = GameAssets.assetManager.get ("tmx files/DayRoom.tmx", TiledMap.class);
@@ -64,8 +68,7 @@ public class DayRoom extends Room {
             }
         }
 
-        toSickRoom = centers[ 0 ];
-        toLaundry = centers[ 0 ];
+        toJunction = centers[ 0 ];
         toCourtyard = centers[ 1 ];
         toDiningHall = centers[ 2 ];
         toStoreRoom = centers[ 3 ];
@@ -96,32 +99,21 @@ public class DayRoom extends Room {
     @Override
     public void update_room() {
 
-        if ( player.getBody ().getPosition ().x < toLaundry ) {
-            if ( Player.act ) {
-//                roomManager.exitRoom (this);
-//                roomManager.setRoom (new RCHall (world, roomManager, player));
-//                player.getBody ().setTransform (RCHall.toCourtyard, player.getBody ().getPosition ().y, 0);
-//                Player.act = false;
-            } else {
-                message = "go to junction?";
-            }
-        }
+        if ( player.getBody ().getPosition ().x < toJunction ) {
 
-        if ( player.getBody ().getPosition ().x < toSickRoom ) {
             if ( Player.act ) {
-//                roomManager.exitRoom (this);
-//                roomManager.setRoom (new RCHall (world, roomManager, player));
-//                player.getBody ().setTransform (RCHall.toCourtyard, player.getBody ().getPosition ().y, 0);
-//                Player.act = false;
+
+                roomManager.room_to_junction (new JunctionScreen (screen.gameClass, JunctionScreen.DLS_junction));
+
             } else {
-                message = "go to junction?";
+                message = "press N: Laundry or Y: Sick room?";
             }
         }
 
         if ( player.getBody ().getPosition ().x > toCourtyard - doorLength && player.getBody ().getPosition ().x < toCourtyard + doorLength ) {
             if ( Player.act ) {
                 roomManager.exitRoom (this);
-                roomManager.setRoom (new Courtyard (world, roomManager, player));
+                roomManager.setRoom (new Courtyard (world, roomManager, player, screen));
                 player.getBody ().setTransform (Courtyard.toDayRoom, player.getBody ().getPosition ().y, 0);
                 Player.act = false;
             } else {
@@ -148,6 +140,11 @@ public class DayRoom extends Room {
                 message = "go to Store room?";
             }
         }
+
+        if ( screen instanceof JunctionScreen ) {
+            screen.render (Gdx.graphics.getDeltaTime ());
+        }
+
     }
 
     @Override
