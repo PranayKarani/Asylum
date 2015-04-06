@@ -104,12 +104,12 @@ public class DayRoom extends Room {
 
                 PlayScreen.isPaused = true;
                 PlayScreen.enterJuction = true;
-                PlayScreen.selectedJunction = JunctionScreen.DLS_junction;
+                PlayScreen.selectedJunction = JunctionScreen.D_LSy;
                 roomManager.exitRoom(this);
                 Player.act = false;
 
             } else {
-                message = "press N: Laundry or Y: Sick room?";
+                message = "to DLS junction?";
             }
         }
 
@@ -117,7 +117,8 @@ public class DayRoom extends Room {
             if ( Player.act ) {
                 roomManager.exitRoom (this);
                 roomManager.setRoom(new Courtyard(world, roomManager, player));
-                player.getBody ().setTransform (Courtyard.toDayRoom, player.getBody ().getPosition ().y, 0);
+                player.getBody().setTransform(Courtyard.toDayRoom, player.getBody().getPosition().y, 0);
+                player.getBody().setLinearVelocity(0, 0);
                 Player.act = false;
             } else {
                 message = "go to Courtyard?";

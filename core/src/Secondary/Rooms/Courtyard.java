@@ -74,7 +74,7 @@ public class Courtyard extends Room {
 
         // dispose tiledmap after use
         tiledMap.dispose ();
-        System.out.println ("entered lobby with " + noofDoors + " doors");
+        System.out.println("entered courtyard with " + noofDoors + " doors");
 
     }
 
