@@ -3,6 +3,7 @@ package Screens; // 03 Apr, 12:40 PM
 import Primary.GameWorld;
 import Primary.WorldRenderer;
 import Secondary.Player;
+import Secondary.Room;
 import com.BotXgames.Asylum.MainGameClass;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -12,7 +13,8 @@ public class PlayScreen extends AbstractScreen {
 
     public static boolean isPaused;
     public static boolean viewMap;
-    public static boolean onJuction;
+    public static boolean enterJuction;
+    public static byte selectedJunction;
 
     GameWorld world;
     WorldRenderer renderer;
@@ -21,19 +23,34 @@ public class PlayScreen extends AbstractScreen {
         super (gameClass);
         isPaused = false;
         viewMap = false;
+        enterJuction = false;
+
+        world = new GameWorld();
+        renderer = new WorldRenderer(world, batch);
+    }
+
+    public PlayScreen(MainGameClass gameClass, GameWorld world, Player player, Room gotoroom) {
+        super(gameClass);
+        isPaused = false;
+        viewMap = false;
+        enterJuction = false;
+
+        this.world = new GameWorld(world, player, gotoroom);
+        renderer = new WorldRenderer(this.world, batch);
+
     }
 
     @Override
     public void show() {
 
-        world = new GameWorld (this);
-        renderer = new WorldRenderer (world, batch);
+
 
     }
 
     @Override
     public void render( float delta ) {
 
+        Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear (GL20.GL_COLOR_BUFFER_BIT);
 
         // if not paused keep udating the world else view map or show pause UI
@@ -44,13 +61,15 @@ public class PlayScreen extends AbstractScreen {
 
             if ( viewMap ) {
                 // view map
-            } else if ( onJuction ) {
-
-
-
             } else {
                 pause ();
             }
+
+        }
+
+        if (enterJuction) {
+
+            gameClass.setScreen(new JunctionScreen(gameClass, selectedJunction, world));
 
         }
 
@@ -70,12 +89,13 @@ public class PlayScreen extends AbstractScreen {
 
     @Override
     public void resume() {
+        Gdx.input.setInputProcessor(this);
         world.resume ();
     }
 
     @Override
     public void hide() { /* called when switching to other screen */
-        dispose ();
+//        dispose ();
     }
 
     @Override

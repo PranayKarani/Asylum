@@ -1,6 +1,5 @@
 package Secondary.Rooms; // 01 Apr, 12:34 PM
 
-import Screens.AbstractScreen;
 import Secondary.Player;
 import Secondary.Room;
 import Secondary.RoomManager;
@@ -29,8 +28,8 @@ public class Courtyard extends Room {
     public static float toOffice;
     public static float toDrRoom;
 
-    public Courtyard( World world, RoomManager roomManager, Player player, AbstractScreen screen ) {
-        super (world, roomManager, player, screen);
+    public Courtyard(World world, RoomManager roomManager, Player player) {
+        super(world, roomManager, player);
         //load tiledmap
         tiledMap = GameAssets.assetManager.get ("tmx files/courtyard.tmx", TiledMap.class);
 
@@ -97,7 +96,7 @@ public class Courtyard extends Room {
         if ( player.getBody ().getPosition ().x > toRC ) {
             if ( Player.act ) {
                 roomManager.exitRoom (this);
-                roomManager.setRoom (new RCHall (world, roomManager, player, screen));
+                roomManager.setRoom(new RCHall(world, roomManager, player));
                 player.getBody ().setTransform (RCHall.toCourtyard, player.getBody ().getPosition ().y, 0);
                 Player.act = false;
             } else {
@@ -108,7 +107,7 @@ public class Courtyard extends Room {
         if ( player.getBody ().getPosition ().x > toLobby - doorLength && player.getBody ().getPosition ().x < toLobby + doorLength ) {
             if ( Player.act ) {
                 roomManager.exitRoom (this);
-                roomManager.setRoom (new Lobby (world, roomManager, player, screen));
+                roomManager.setRoom(new Lobby(world, roomManager, player));
                 player.getBody ().setTransform (Lobby.toCourtyard, player.getBody ().getPosition ().y, 0);
                 Player.act = false;
             } else {
@@ -119,7 +118,7 @@ public class Courtyard extends Room {
         if ( player.getBody ().getPosition ().x > toDayRoom - doorLength && player.getBody ().getPosition ().x < toDayRoom + doorLength ) {
             if ( Player.act ) {
                 roomManager.exitRoom (this);
-                roomManager.setRoom (new DayRoom (world, roomManager, player, screen));
+                roomManager.setRoom(new DayRoom(world, roomManager, player));
                 player.getBody ().setTransform (DayRoom.toCourtyard, player.getBody ().getPosition ().y, 0);
                 Player.act = false;
             } else {
@@ -130,7 +129,7 @@ public class Courtyard extends Room {
         if ( player.getBody ().getPosition ().x > toOffice - doorLength && player.getBody ().getPosition ().x < toOffice + doorLength ) {
             if ( Player.act ) {
                 roomManager.exitRoom (this);
-                roomManager.setRoom (new Office (world, roomManager, player, screen));
+                roomManager.setRoom(new Office(world, roomManager, player));
                 player.getBody ().setTransform (Office.toCourtyard, player.getBody ().getPosition ().y, 0);
                 Player.act = false;
             } else {
@@ -141,7 +140,7 @@ public class Courtyard extends Room {
         if ( player.getBody ().getPosition ().x < toDrRoom ) {
             if ( Player.act ) {
                 roomManager.exitRoom (this);
-                roomManager.setRoom (new DrRoom (world, roomManager, player, screen));
+                roomManager.setRoom(new DrRoom(world, roomManager, player));
                 player.getBody ().setTransform (DrRoom.toCourtyard, player.getBody ().getPosition ().y, 0);
                 Player.act = false;
             } else {

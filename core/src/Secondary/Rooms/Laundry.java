@@ -1,6 +1,5 @@
 package Secondary.Rooms; // 04 Apr, 10:08 PM
 
-import Screens.AbstractScreen;
 import Secondary.Player;
 import Secondary.Room;
 import Secondary.RoomManager;
@@ -17,18 +16,18 @@ import com.badlogic.gdx.physics.box2d.World;
 
 public class Laundry extends Room {
 
+
     TiledMap tiledMap;
     MapLayer mapLayer;
     byte noofPoints;
     Vector2[] chainpoints;
     // Doors
     byte noofDoors; // used for creating all door related vectors
-    public static float toDayRoom;
-    public static float toSickRoom;
+    public static float toJunction;
     public static float toDormitory;
 
-    public Laundry( World world, RoomManager roomManager, Player player, AbstractScreen screen ) {
-        super (world, roomManager, player, screen);
+    public Laundry(World world, RoomManager roomManager, Player player) {
+        super(world, roomManager, player);
 
         //load tiledmap
         tiledMap = GameAssets.assetManager.get ("tmx files/Laundry.tmx", TiledMap.class);
@@ -63,9 +62,8 @@ public class Laundry extends Room {
             }
         }
 
-        toSickRoom = centers[ 0 ];
-        toDayRoom = centers[ 1 ];
-        toDormitory = centers[ 2 ];
+        toDormitory = centers[0];
+        toJunction = centers[1];
 
         // create actually Box2D Room Body with data gathered above
         create_room ();
@@ -86,7 +84,7 @@ public class Laundry extends Room {
         chainShape.createChain (chainpoints);
         fdef.shape = chainShape;
         body.createFixture (fdef).setUserData ("room floor");
-        chainShape.dispose ();
+        chainShape.dispose();
 
     }
 
@@ -101,7 +99,7 @@ public class Laundry extends Room {
             }
         }
 
-        if ( player.getBody ().getPosition ().x < toDayRoom ) {
+        if (player.getBody().getPosition().x < toJunction) {
             if ( Player.act ) {
 //                roomManager.exitRoom (this);
 //                roomManager.setRoom (new RCHall (world, roomManager, player));
@@ -111,18 +109,6 @@ public class Laundry extends Room {
                 message = "go to junction";
             }
         }
-
-        if ( player.getBody ().getPosition ().x < toSickRoom ) {
-            if ( Player.act ) {
-//                roomManager.exitRoom (this);
-//                roomManager.setRoom (new RCHall (world, roomManager, player));
-//                player.getBody ().setTransform (RCHall.toCourtyard, player.getBody ().getPosition ().y, 0);
-//                Player.act = false;
-            } else {
-                message = "go to junction?";
-            }
-        }
-
 
     }
 

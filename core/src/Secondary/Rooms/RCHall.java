@@ -1,6 +1,5 @@
 package Secondary.Rooms; // 04 Apr, 06:24 PM
 
-import Screens.AbstractScreen;
 import Secondary.Player;
 import Secondary.Room;
 import Secondary.RoomManager;
@@ -25,8 +24,8 @@ public class RCHall extends Room {
     byte noofDoors; // used for creating all door related vectors
     public static float toCourtyard;
 
-    public RCHall( World world, RoomManager roomManager, Player player, AbstractScreen screen ) {
-        super (world, roomManager, player, screen);
+    public RCHall(World world, RoomManager roomManager, Player player) {
+        super(world, roomManager, player);
 
         //load tiledmap
         tiledMap = GameAssets.assetManager.get ("tmx files/RCHall.tmx", TiledMap.class);
@@ -92,7 +91,7 @@ public class RCHall extends Room {
         if ( player.getBody ().getPosition ().x < toCourtyard ) {
             if ( Player.act ) {
                 roomManager.exitRoom (this);
-                roomManager.setRoom (new Courtyard (world, roomManager, player, screen));
+                roomManager.setRoom(new Courtyard(world, roomManager, player));
                 player.getBody ().setTransform (Courtyard.toRC, player.getBody ().getPosition ().y, 0);
                 Player.act = false;
             } else {

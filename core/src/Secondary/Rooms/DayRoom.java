@@ -1,12 +1,11 @@
 package Secondary.Rooms; // 04 Apr, 06:52 PM
 
-import Screens.AbstractScreen;
 import Screens.JunctionScreen;
+import Screens.PlayScreen;
 import Secondary.Player;
 import Secondary.Room;
 import Secondary.RoomManager;
 import Utilities.GameAssets;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.EllipseMapObject;
@@ -32,8 +31,8 @@ public class DayRoom extends Room {
     public static float toStoreRoom;
     public static float toJunction;
 
-    public DayRoom( World world, RoomManager roomManager, Player player, AbstractScreen screen ) {
-        super (world, roomManager, player, screen);
+    public DayRoom(World world, RoomManager roomManager, Player player) {
+        super(world, roomManager, player);
 
         //load tiledmap
         tiledMap = GameAssets.assetManager.get ("tmx files/DayRoom.tmx", TiledMap.class);
@@ -103,7 +102,11 @@ public class DayRoom extends Room {
 
             if ( Player.act ) {
 
-                roomManager.room_to_junction (new JunctionScreen (screen.gameClass, JunctionScreen.DLS_junction));
+                PlayScreen.isPaused = true;
+                PlayScreen.enterJuction = true;
+                PlayScreen.selectedJunction = JunctionScreen.DLS_junction;
+                roomManager.exitRoom(this);
+                Player.act = false;
 
             } else {
                 message = "press N: Laundry or Y: Sick room?";
@@ -113,7 +116,7 @@ public class DayRoom extends Room {
         if ( player.getBody ().getPosition ().x > toCourtyard - doorLength && player.getBody ().getPosition ().x < toCourtyard + doorLength ) {
             if ( Player.act ) {
                 roomManager.exitRoom (this);
-                roomManager.setRoom (new Courtyard (world, roomManager, player, screen));
+                roomManager.setRoom(new Courtyard(world, roomManager, player));
                 player.getBody ().setTransform (Courtyard.toDayRoom, player.getBody ().getPosition ().y, 0);
                 Player.act = false;
             } else {
@@ -141,9 +144,6 @@ public class DayRoom extends Room {
             }
         }
 
-        if ( screen instanceof JunctionScreen ) {
-            screen.render (Gdx.graphics.getDeltaTime ());
-        }
 
     }
 

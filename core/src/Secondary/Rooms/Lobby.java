@@ -1,6 +1,5 @@
 package Secondary.Rooms; // 01 Apr, 12:13 PM
 
-import Screens.AbstractScreen;
 import Secondary.Player;
 import Secondary.Room;
 import Secondary.RoomManager;
@@ -26,8 +25,8 @@ public class Lobby extends Room { // 150cm + 30cm(entrance)
     // Doors
     byte noofDoors; // used for creating all door related vectors
 
-    public Lobby( World world, RoomManager roomManager, Player player, AbstractScreen screen ) {
-        super (world, roomManager, player, screen);
+    public Lobby(World world, RoomManager roomManager, Player player) {
+        super(world, roomManager, player);
 
         //load tiledmap
         tiledMap = GameAssets.assetManager.get ("tmx files/lobby.tmx", TiledMap.class);
@@ -91,7 +90,7 @@ public class Lobby extends Room { // 150cm + 30cm(entrance)
         if ( player.getBody ().getPosition ().x < toCourtyard ) {
             if ( Player.act ) {
                 roomManager.exitRoom (this);
-                roomManager.setRoom (new Courtyard (world, roomManager, player, screen));
+                roomManager.setRoom(new Courtyard(world, roomManager, player));
                 player.getBody ().setTransform (Courtyard.toLobby, player.getBody ().getPosition ().y, 0);
                 Player.act = false;
             } else {
@@ -101,7 +100,7 @@ public class Lobby extends Room { // 150cm + 30cm(entrance)
         if ( player.getBody ().getPosition ().x > toGarden ) {
             if ( Player.act ) {
                 roomManager.exitRoom (this);
-                roomManager.setRoom (new Garden (world, roomManager, player, screen));
+                roomManager.setRoom(new Garden(world, roomManager, player));
                 player.getBody ().setTransform (Garden.toLobby, player.getBody ().getPosition ().y, 0);
                 Player.act = false;
             } else {

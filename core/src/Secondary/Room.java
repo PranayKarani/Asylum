@@ -16,15 +16,14 @@ import com.badlogic.gdx.physics.box2d.*;
  */
 public abstract class Room{
 
-    protected World world;
+    public World world;
     public Player player;
     protected Body body;
     protected BodyDef bdef;
     protected FixtureDef fdef;
     protected ChainShape chainShape;
     protected RoomManager roomManager;
-    protected AbstractScreen screen;
-    protected AbstractScreen previousScreen;
+    public AbstractScreen previousScreen;
     public static final float doorLength = 75f / 100f;
     public static String message; // for debugging purposees only
     protected boolean canDestroyRoom;
@@ -34,14 +33,13 @@ public abstract class Room{
      * @param world
      * @param roomManager
      */
-    public Room( World world, RoomManager roomManager, Player player, AbstractScreen screen ) {
+    public Room(World world, RoomManager roomManager, Player player) {
         this.world = world;
         bdef = new BodyDef ();
         fdef = new FixtureDef ();
         chainShape = new ChainShape ();
         this.roomManager = roomManager;
         this.player = player;
-        this.screen = screen;
         canDestroyRoom = true;
 
     }
