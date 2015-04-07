@@ -6,6 +6,7 @@ import Secondary.Room;
 import Secondary.RoomManager;
 import Secondary.Rooms.DayRoom;
 import Secondary.Rooms.Laundry;
+import Secondary.Rooms.SickYard;
 import Utilities.GameAssets;
 import com.BotXgames.Asylum.MainGameClass;
 import com.badlogic.gdx.Gdx;
@@ -121,9 +122,15 @@ public class JunctionScreen extends AbstractScreen {
 
         switch (roomNo) {
 
-            case laundry:toRoom = new Laundry(world.world, roomManager, player);break;
-            case dayroom:toRoom = new DayRoom(world.world, roomManager, player);break;
-            case sickroom: break;
+            case laundry:
+                toRoom = new Laundry(world.world, roomManager, player);
+                break;
+            case dayroom:
+                toRoom = new DayRoom(world.world, roomManager, player);
+                break;
+            case sickroom:
+                toRoom = new SickYard(world.world, roomManager, player);
+                break;
             case solitary: break;
             case seclusion: break;
             case estroom: break;
@@ -196,7 +203,8 @@ public class JunctionScreen extends AbstractScreen {
             case D_LSy:
                 if (screenX < Gdx.graphics.getWidth() / 2) { // touched left part of screen
                     act = true;
-                    System.out.println("Sick room not available");
+                    roomNo = sickroom;
+                    toRoomSpawnpoint = SickYard.toDLSJunction;
                 }
                 if (screenX > Gdx.graphics.getWidth() / 2) { // touched right part of screen
                     act = true;
@@ -207,7 +215,8 @@ public class JunctionScreen extends AbstractScreen {
             case L_DSy:
                 if (screenX > Gdx.graphics.getWidth() / 2) { // touched right part of screen
                     act = true;
-                    System.out.println("Sick room not available");
+                    roomNo = sickroom;
+                    toRoomSpawnpoint = SickYard.toDLSJunction;
                 }
                 if (screenX < Gdx.graphics.getWidth() / 2) { // touched left part of screen
                     act = true;

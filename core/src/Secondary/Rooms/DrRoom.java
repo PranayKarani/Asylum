@@ -105,10 +105,10 @@ public class DrRoom extends Room {
 
         if ( player.getBody ().getPosition ().x > toSickRoom - doorLength && player.getBody ().getPosition ().x < toSickRoom + doorLength ) {
             if ( Player.act ) {
-//                roomManager.exitRoom (this);
-//                roomManager.setRoom (new Courtyard (world, roomManager, player));
-//                player.getBody ().setTransform (Courtyard.toDayRoom, player.getBody ().getPosition ().y, 0);
-//                Player.act = false;
+                roomManager.exitRoom(this);
+                roomManager.setRoom(new SickYard(world, roomManager, player));
+                player.getBody().setTransform(SickYard.toDrRoom, player.getBody().getPosition().y, 0);
+                Player.act = false;
             } else {
                 message = "go to Sick room?";
             }
