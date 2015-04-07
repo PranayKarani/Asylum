@@ -96,12 +96,12 @@ public class Solitary extends Room {
 
                 PlayScreen.isPaused = true;
                 PlayScreen.enterJuction = true;
-                PlayScreen.selectedJunction = JunctionScreen.Sc_SrESy;
+                PlayScreen.selectedJunction = JunctionScreen.Sc_SySrE;
                 roomManager.exitRoom(this);
                 Player.act = false;
 
             } else {
-                message = "to SS junction?";
+                message = "to SSSE junction?";
             }
         }
 

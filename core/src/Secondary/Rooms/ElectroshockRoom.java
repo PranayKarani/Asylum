@@ -63,8 +63,8 @@ public class ElectroshockRoom extends Room {
             }
         }
 
-        toSEJunction = centers[0];
-        tunnel = centers[1];
+        tunnel = centers[0];
+        toSEJunction = centers[1];
 
         // create actually Box2D Room Body with data gathered above
         create_room();
@@ -92,21 +92,21 @@ public class ElectroshockRoom extends Room {
     @Override
     public void update_room() {
 
-        if (player.getBody().getPosition().x > toSEJunction - doorLength && player.getBody().getPosition().x < toSEJunction + doorLength) {
+        if (player.getBody().getPosition().x > toSEJunction) {
 
             if (Player.act) {
 
                 PlayScreen.isPaused = true;
                 PlayScreen.enterJuction = true;
-                PlayScreen.selectedJunction = JunctionScreen.E_SrScSy;
+                PlayScreen.selectedJunction = JunctionScreen.E_SyScSr;
                 roomManager.exitRoom(this);
                 Player.act = false;
 
             } else {
-                message = "to SS junction?";
+                message = "to SSSE junction?";
             }
         }
-        if (player.getBody().getPosition().x > tunnel) {
+        if (player.getBody().getPosition().x > tunnel - doorLength && player.getBody().getPosition().x < tunnel + doorLength) {
 
             if (Player.act) {
                 System.out.println("tunnel not available");

@@ -90,18 +90,18 @@ public class Seclusion extends Room {
     @Override
     public void update_room() {
 
-        if (player.getBody().getPosition().x > toSEJunction) {
+        if (player.getBody().getPosition().x < toSEJunction) {
 
             if (Player.act) {
 
                 PlayScreen.isPaused = true;
                 PlayScreen.enterJuction = true;
-                PlayScreen.selectedJunction = JunctionScreen.Sr_EScSy;
+                PlayScreen.selectedJunction = JunctionScreen.Sr_SyScE;
                 roomManager.exitRoom(this);
                 Player.act = false;
 
             } else {
-                message = "to SE junction?";
+                message = "to SSSE junction?";
             }
         }
 

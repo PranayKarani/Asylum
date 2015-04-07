@@ -5,12 +5,11 @@ import Secondary.Player;
 import Secondary.Room;
 import Secondary.RoomManager;
 import Secondary.Rooms.*;
-import Utilities.GameAssets;
 import com.BotXgames.Asylum.MainGameClass;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
@@ -23,10 +22,10 @@ public class JunctionScreen extends AbstractScreen {
     public static final byte L_DSy = 2;
     public static final byte Sy_LD = 3;
     // SSSE junction
-    public static final byte Sy_ScSrE = 4; // Sy = Sick yard, T = turn (to next junction)
-    public static final byte Sc_SrESy = 5;
-    public static final byte Sr_EScSy = 6;// Sr = seclusion room, E = Electric shock room
-    public static final byte E_SrScSy = 7;
+    public static final byte Sy_ESrSc = 4; // Sy = Sick yard, T = turn (to next junction)
+    public static final byte Sc_SySrE = 5;
+    public static final byte Sr_SyScE = 6;// Sr = seclusion room, E = Electric shock room
+    public static final byte E_SyScSr = 7;
     private byte junctionType;
 
     private byte roomNo;
@@ -58,6 +57,7 @@ public class JunctionScreen extends AbstractScreen {
         this.player = world.player;
 
         font = new BitmapFont();
+        font.setColor(Color.DARK_GRAY);
 
         switch (junctionType) {
 
@@ -73,16 +73,16 @@ public class JunctionScreen extends AbstractScreen {
                 break;
 
             // SSSE
-            case Sy_ScSrE:
+            case Sy_ESrSc:
                 Gdx.gl.glClearColor(.2f, 1, .3f, 1);
                 break;
-            case Sc_SrESy:
+            case Sc_SySrE:
                 Gdx.gl.glClearColor(.3f, 1, .2f, 1);
                 break;
-            case Sr_EScSy:
+            case Sr_SyScE:
                 Gdx.gl.glClearColor(.3f, 1, .3f, 1);
                 break;
-            case E_SrScSy:
+            case E_SyScSr:
                 Gdx.gl.glClearColor(.2f, 1, .2f, 1);
                 break;
 
@@ -93,7 +93,14 @@ public class JunctionScreen extends AbstractScreen {
     @Override
     public void show() {
 
-        sprite = new Sprite(GameAssets.assetManager.get("bushes.png", Texture.class));
+//        if( junctionType == D_LSy || junctionType == Sy_LD )
+//            sprite = new Sprite(GameAssets.assetManager.get("bushes.png", Texture.class));
+//
+//        if(junctionType == L_DSy)
+//            sprite = new Sprite(GameAssets.assetManager.get("bushes.png", Texture.class));
+//
+//        if( junctionType >= 4 && junctionType <= 7)
+//            sprite = new Sprite(GameAssets.assetManager.get("SSSE.png", Texture.class));
 
     }
 
@@ -103,7 +110,7 @@ public class JunctionScreen extends AbstractScreen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.begin();
-
+//        sprite.draw(batch);
         switch (junctionType) {
 
             case D_LSy:
@@ -120,29 +127,28 @@ public class JunctionScreen extends AbstractScreen {
                 break;
 
             // SSSE
-            case Sy_ScSrE:
-                font.draw(batch, "EST ", 200, 240);
-                font.draw(batch, "Seclusion", 400, 240);
-                font.draw(batch, "Solitary", 600, 240);
+            case Sy_ESrSc:
+                font.draw(batch, "Seclusion", Gdx.graphics.getWidth() / 4, 240);
+                font.draw(batch, "EST ", Gdx.graphics.getWidth() / 2, 240);
+                font.draw(batch, "Solitary", Gdx.graphics.getWidth() / 2 + Gdx.graphics.getWidth() / 6, 240);
                 break;
-            case Sc_SrESy:
-                font.draw(batch, "Sick yard ", 200, 240);
-                font.draw(batch, "Seclusion", 400, 240);
-                font.draw(batch, "EST", 600, 240);
+            case Sc_SySrE:
+                font.draw(batch, "Sick yard", Gdx.graphics.getWidth() / 4, 240);
+                font.draw(batch, "Seclusion", Gdx.graphics.getWidth() / 2, 240);
+                font.draw(batch, "EST", Gdx.graphics.getWidth() / 2 + Gdx.graphics.getWidth() / 6, 240);
                 break;
-            case Sr_EScSy:
-                font.draw(batch, "Sick yard ", 0, 240);
-                font.draw(batch, "Solitary", 200, 240);
-                font.draw(batch, "EST", 400, 240);
+            case E_SyScSr:
+                font.draw(batch, "Solitary", Gdx.graphics.getWidth() / 4, 240);
+                font.draw(batch, "Sick yard ", Gdx.graphics.getWidth() / 2, 240);
+                font.draw(batch, "Seclusion", Gdx.graphics.getWidth() / 2 + Gdx.graphics.getWidth() / 6, 240);
                 break;
-            case E_SrScSy:
-                font.draw(batch, "Sick yard ", 0, 240);
-                font.draw(batch, "Solitary", 200, 240);
-                font.draw(batch, "Seclusion", 400, 240);
+            case Sr_SyScE:
+                font.draw(batch, "EST", Gdx.graphics.getWidth() / 4, 240);
+                font.draw(batch, "Solitray", Gdx.graphics.getWidth() / 2, 240);
+                font.draw(batch, "Sick yard", Gdx.graphics.getWidth() / 2 + Gdx.graphics.getWidth() / 6, 240);
                 break;
 
         }
-
         batch.end();
 
         switch (roomNo) {
@@ -269,36 +275,73 @@ public class JunctionScreen extends AbstractScreen {
                 break;
 
             // SSSE
-            case Sy_ScSrE:
-                if (screenX < Gdx.graphics.getWidth() / 2) {
+            case Sy_ESrSc: // from sick yard
+                if (screenX < Gdx.graphics.getWidth() / 3) {
+                    act = true;
+                    roomNo = seclusion;
+                    toRoomSpawnpoint = 1.5f;
+                }
+                if (screenX > Gdx.graphics.getWidth() * 1f / 3f && screenX < Gdx.graphics.getWidth() * 2f / 3f) {
                     act = true;
                     roomNo = estroom;
                     toRoomSpawnpoint = 32.5f;
                 }
-                if (screenX > Gdx.graphics.getWidth() / 2 && screenX < Gdx.graphics.getWidth() / 1.33f) {
-                    act = true;
-                    roomNo = seclusion;
-                    toRoomSpawnpoint = Seclusion.toSEJunction;
-                }
-                if (screenX > Gdx.graphics.getWidth() / 1.33f) {
+                if (screenX > Gdx.graphics.getWidth() * 2f / 3f) {
                     act = true;
                     roomNo = solitary;
                     toRoomSpawnpoint = 40.5f;
                 }
                 break;
-            case Sc_SrESy:
-                if (screenX < Gdx.graphics.getWidth() / 2) { // touched left part of screen
+            case Sc_SySrE: // from solitary
+                if (screenX < Gdx.graphics.getWidth() / 3) {
                     act = true;
                     roomNo = sickroom;
-                    toRoomSpawnpoint = 28.5f;
+                    toRoomSpawnpoint = 1.5f;
                 }
-                if (screenX > Gdx.graphics.getWidth() / 2) { // touched right part of screen
+                if (screenX > Gdx.graphics.getWidth() * 1f / 3f && screenX < Gdx.graphics.getWidth() * 2f / 3f) {
                     act = true;
+                    roomNo = seclusion;
+                    toRoomSpawnpoint = 1.5f;
+                }
+                if (screenX > Gdx.graphics.getWidth() * 2f / 3f) {
+                    act = true;
+                    roomNo = estroom;
+                    toRoomSpawnpoint = 32.5f;
                 }
                 break;
-            case Sr_EScSy:
+            case E_SyScSr: // from EST
+                if (screenX < Gdx.graphics.getWidth() / 3) {
+                    act = true;
+                    roomNo = solitary;
+                    toRoomSpawnpoint = 40.5f;
+                }
+                if (screenX > Gdx.graphics.getWidth() * 1f / 3f && screenX < Gdx.graphics.getWidth() * 2f / 3f) {
+                    act = true;
+                    roomNo = sickroom;
+                    toRoomSpawnpoint = 1.5f;
+                }
+                if (screenX > Gdx.graphics.getWidth() * 2f / 3f) {
+                    act = true;
+                    roomNo = seclusion;
+                    toRoomSpawnpoint = 1.5f;
+                }
                 break;
-            case E_SrScSy:
+            case Sr_SyScE: // from Seclusion
+                if (screenX < Gdx.graphics.getWidth() / 3) {
+                    act = true;
+                    roomNo = estroom;
+                    toRoomSpawnpoint = 32.5f;
+                }
+                if (screenX > Gdx.graphics.getWidth() * 1f / 3f && screenX < Gdx.graphics.getWidth() * 2f / 3f) {
+                    act = true;
+                    roomNo = solitary;
+                    toRoomSpawnpoint = 40.5f;
+                }
+                if (screenX > Gdx.graphics.getWidth() * 2f / 3f) {
+                    act = true;
+                    roomNo = sickroom;
+                    toRoomSpawnpoint = 1.5f;
+                }
                 break;
 
 

@@ -142,12 +142,12 @@ public class SickYard extends Room {
 
                 PlayScreen.isPaused = true;
                 PlayScreen.enterJuction = true;
-                PlayScreen.selectedJunction = JunctionScreen.Sy_ScSrE;
+                PlayScreen.selectedJunction = JunctionScreen.Sy_ESrSc;
                 roomManager.exitRoom(this);
                 Player.act = false;
 
             } else {
-                message = "to SS junction?";
+                message = "to SSSE junction?";
             }
         }
 
