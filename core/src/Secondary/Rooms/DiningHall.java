@@ -1,7 +1,5 @@
-package Secondary.Rooms; // 07 Apr, 11:10 AM
+package Secondary.Rooms; // 07 Apr, 12:00 PM
 
-import Screens.JunctionScreen;
-import Screens.PlayScreen;
 import Secondary.Player;
 import Secondary.Room;
 import Secondary.RoomManager;
@@ -16,7 +14,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
 
-public class SickYard extends Room {
+public class DiningHall extends Room {
 
     TiledMap tiledMap;
     MapLayer mapLayer;
@@ -24,17 +22,15 @@ public class SickYard extends Room {
     Vector2[] chainpoints;
     // Doors
     byte noofDoors; // used for creating all door related vectors
-    public static float toSSSJunction;
     public static float toDormitory;
-    public static float toDrRoom;
-    public static float toDLSJunction;
+    public static float toKitchen;
+    public static float toDayRoom;
 
-
-    public SickYard(World world, RoomManager roomManager, Player player) {
+    public DiningHall(World world, RoomManager roomManager, Player player) {
         super(world, roomManager, player);
 
         //load tiledmap
-        tiledMap = GameAssets.assetManager.get("tmx files/SickYard.tmx", TiledMap.class);
+        tiledMap = GameAssets.assetManager.get("tmx files/DiningHall.tmx", TiledMap.class);
 
         // take shape layer from tiledmap
         mapLayer = tiledMap.getLayers().get("structure");
@@ -66,17 +62,17 @@ public class SickYard extends Room {
             }
         }
 
-        toSSSJunction = centers[0];
-        toDormitory = centers[1];
-        toDrRoom = centers[2];
-        toDLSJunction = centers[3];
+        toDormitory = centers[0];
+        toKitchen = centers[1];
+        toDayRoom = centers[2];
 
         // create actually Box2D Room Body with data gathered above
         create_room();
 
         // dispose tiledmap after use
         tiledMap.dispose();
-        System.out.println("entered Sick Yard with " + noofDoors + " doors");
+        System.out.println("entered Dining Hall with " + noofDoors + " doors");
+
 
     }
 
@@ -97,26 +93,11 @@ public class SickYard extends Room {
     @Override
     public void update_room() {
 
-        if (player.getBody().getPosition().x > toDLSJunction) {
-
-            if (Player.act) {
-
-                PlayScreen.isPaused = true;
-                PlayScreen.enterJuction = true;
-                PlayScreen.selectedJunction = JunctionScreen.Sy_LD;
-                roomManager.exitRoom(this);
-                Player.act = false;
-
-            } else {
-                message = "to DLS junction?";
-            }
-        }
-
         if (player.getBody().getPosition().x > toDormitory - doorLength && player.getBody().getPosition().x < toDormitory + doorLength) {
             if (Player.act) {
                 roomManager.exitRoom(this);
                 roomManager.setRoom(new Dormitory(world, roomManager, player));
-                player.getBody().setTransform(Dormitory.toSickyard, player.getBody().getPosition().y, 0);
+                player.getBody().setTransform(Dormitory.toDiningHall, player.getBody().getPosition().y, 0);
                 player.getBody().setLinearVelocity(0, 0);
                 Player.act = false;
             } else {
@@ -124,15 +105,28 @@ public class SickYard extends Room {
             }
         }
 
-        if (player.getBody().getPosition().x > toDrRoom - doorLength && player.getBody().getPosition().x < toDrRoom + doorLength) {
+        if (player.getBody().getPosition().x > toKitchen - doorLength && player.getBody().getPosition().x < toKitchen + doorLength) {
+            if (Player.act) {
+                System.out.println("Kitchen unavailabel");
+//                roomManager.exitRoom (this);
+//                roomManager.setRoom(new Laundry(world, roomManager, player));
+//                player.getBody().setTransform(Laundry.toDormitory, player.getBody().getPosition().y, 0);
+//                player.getBody().setLinearVelocity(0, 0);
+                Player.act = false;
+            } else {
+                message = "go to Kitchen ?";
+            }
+        }
+
+        if (player.getBody().getPosition().x > toDayRoom) {
             if (Player.act) {
                 roomManager.exitRoom(this);
-                roomManager.setRoom(new DrRoom(world, roomManager, player));
-                player.getBody().setTransform(DrRoom.toSickRoom, player.getBody().getPosition().y, 0);
+                roomManager.setRoom(new DayRoom(world, roomManager, player));
+                player.getBody().setTransform(DayRoom.toDiningHall, player.getBody().getPosition().y, 0);
                 player.getBody().setLinearVelocity(0, 0);
                 Player.act = false;
             } else {
-                message = "go to Dr room ?";
+                message = "go to Day room ?";
             }
         }
 

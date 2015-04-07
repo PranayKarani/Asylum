@@ -29,7 +29,7 @@ public class DayRoom extends Room {
     public static float toDiningHall;
     public static float toSickRoom;
     public static float toStoreRoom;
-    public static float toJunction;
+    public static float toDLSJunction;
 
     public DayRoom(World world, RoomManager roomManager, Player player) {
         super(world, roomManager, player);
@@ -67,7 +67,7 @@ public class DayRoom extends Room {
             }
         }
 
-        toJunction = centers[ 0 ];
+        toDLSJunction = centers[0];
         toCourtyard = centers[ 1 ];
         toDiningHall = centers[ 2 ];
         toStoreRoom = centers[ 3 ];
@@ -98,7 +98,7 @@ public class DayRoom extends Room {
     @Override
     public void update_room() {
 
-        if ( player.getBody ().getPosition ().x < toJunction ) {
+        if (player.getBody().getPosition().x < toDLSJunction) {
 
             if ( Player.act ) {
 
@@ -126,10 +126,10 @@ public class DayRoom extends Room {
         }
         if ( player.getBody ().getPosition ().x > toDiningHall - doorLength && player.getBody ().getPosition ().x < toDiningHall + doorLength ) {
             if ( Player.act ) {
-//                roomManager.exitRoom (this);
-//                roomManager.setRoom (new DayRoom (world, roomManager, player));
-//                player.getBody ().setTransform (DayRoom.toCourtyard, player.getBody ().getPosition ().y, 0);
-//                Player.act = false;
+                roomManager.exitRoom(this);
+                roomManager.setRoom(new DiningHall(world, roomManager, player));
+                player.getBody().setTransform(DiningHall.toDayRoom, player.getBody().getPosition().y, 0);
+                Player.act = false;
             } else {
                 message = "go to Dining hall?";
             }

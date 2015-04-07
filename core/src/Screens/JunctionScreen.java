@@ -106,7 +106,10 @@ public class JunctionScreen extends AbstractScreen {
                 font.draw(batch, "tap here to go to Day room", 200, 240);
                 font.draw(batch, "tap here to go to Sick yard", 600, 240);
                 break;
-            case Sy_LD: break;
+            case Sy_LD:
+                font.draw(batch, "tap here to go to Laundry ", 200, 240);
+                font.draw(batch, "tap here to go to Day room", 600, 240);
+                break;
             // SSS
             case Sy_ST: break;
             case S_SyT: break;
@@ -204,36 +207,36 @@ public class JunctionScreen extends AbstractScreen {
                 if (screenX < Gdx.graphics.getWidth() / 2) { // touched left part of screen
                     act = true;
                     roomNo = sickroom;
-                    toRoomSpawnpoint = SickYard.toDLSJunction;
+                    toRoomSpawnpoint = 60.5f;
                 }
                 if (screenX > Gdx.graphics.getWidth() / 2) { // touched right part of screen
                     act = true;
                     roomNo = laundry;
-                    toRoomSpawnpoint = 22.55f;//Laundry.toJunction;
+                    toRoomSpawnpoint = 22.55f;
                 }
                 break;
             case L_DSy:
                 if (screenX > Gdx.graphics.getWidth() / 2) { // touched right part of screen
                     act = true;
                     roomNo = sickroom;
-                    toRoomSpawnpoint = SickYard.toDLSJunction;
+                    toRoomSpawnpoint = 60.5f;
                 }
                 if (screenX < Gdx.graphics.getWidth() / 2) { // touched left part of screen
                     act = true;
                     roomNo = dayroom;
-                    toRoomSpawnpoint = DayRoom.toJunction;//Laundry.toJunction;
+                    toRoomSpawnpoint = 1.5f;
                 }
                 break;
             case Sy_LD:
                 if (screenX < Gdx.graphics.getWidth() / 2) { // touched left part of screen
                     act = true;
                     roomNo = laundry;
-                    toRoomSpawnpoint = 22.55f;//Laundry.toJunction;
+                    toRoomSpawnpoint = 22.55f;
                 }
                 if (screenX > Gdx.graphics.getWidth() / 2) { // touched right part of screen
                     act = true;
                     roomNo = dayroom;
-                    toRoomSpawnpoint = DayRoom.toJunction;//Laundry.toJunction;
+                    toRoomSpawnpoint = 1.5f;
                 }break;
             // SSS
             case Sy_ST: break;

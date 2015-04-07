@@ -25,7 +25,7 @@ public class Laundry extends Room {
     Vector2[] chainpoints;
     // Doors
     byte noofDoors; // used for creating all door related vectors
-    public static float toJunction;
+    public static float toDLSJunction;
     public static float toDormitory;
 
     public Laundry(World world, RoomManager roomManager, Player player) {
@@ -65,7 +65,7 @@ public class Laundry extends Room {
         }
 
         toDormitory = centers[0];
-        toJunction = centers[1];
+        toDLSJunction = centers[1];
 
         // create actually Box2D Room Body with data gathered above
         create_room();
@@ -95,13 +95,17 @@ public class Laundry extends Room {
 
         if (player.getBody().getPosition().x < toDormitory) {
             if (Player.act) {
-                System.out.println("Dormitory not avaiable");
+                roomManager.exitRoom(this);
+                roomManager.setRoom(new Dormitory(world, roomManager, player));
+                player.getBody().setTransform(Dormitory.toLaundry, player.getBody().getPosition().y, 0);
+                player.getBody().setLinearVelocity(0, 0);
+                Player.act = false;
             } else {
                 message = "go to Dormitory?";
             }
         }
 
-        if (player.getBody().getPosition().x > toJunction) {
+        if (player.getBody().getPosition().x > toDLSJunction) {
 
             if (Player.act) {
 
