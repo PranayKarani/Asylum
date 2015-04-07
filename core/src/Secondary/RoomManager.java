@@ -51,8 +51,4 @@ public class RoomManager {
         currentRoom.destroy_room ();
     }
 
-    public void junction_to_room( Room room ) {
-        setRoom(room);
-    }
-
 }

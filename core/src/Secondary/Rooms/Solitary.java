@@ -1,4 +1,4 @@
-package Secondary.Rooms; // 07 Apr, 11:10 AM
+package Secondary.Rooms; // 07 Apr, 12:51 PM
 
 import Screens.JunctionScreen;
 import Screens.PlayScreen;
@@ -16,7 +16,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
 
-public class SickYard extends Room {
+public class Solitary extends Room {
 
     TiledMap tiledMap;
     MapLayer mapLayer;
@@ -25,16 +25,12 @@ public class SickYard extends Room {
     // Doors
     byte noofDoors; // used for creating all door related vectors
     public static float toSSJunction;
-    public static float toDormitory;
-    public static float toDrRoom;
-    public static float toDLSJunction;
 
-
-    public SickYard(World world, RoomManager roomManager, Player player) {
+    public Solitary(World world, RoomManager roomManager, Player player) {
         super(world, roomManager, player);
 
         //load tiledmap
-        tiledMap = GameAssets.assetManager.get("tmx files/SickYard.tmx", TiledMap.class);
+        tiledMap = GameAssets.assetManager.get("tmx files/Solitary.tmx", TiledMap.class);
 
         // take shape layer from tiledmap
         mapLayer = tiledMap.getLayers().get("structure");
@@ -67,16 +63,13 @@ public class SickYard extends Room {
         }
 
         toSSJunction = centers[0];
-        toDormitory = centers[1];
-        toDrRoom = centers[2];
-        toDLSJunction = centers[3];
 
         // create actually Box2D Room Body with data gathered above
         create_room();
 
         // dispose tiledmap after use
         tiledMap.dispose();
-        System.out.println("entered Sick Yard with " + noofDoors + " doors");
+        System.out.println("entered Solitary with " + noofDoors + " doors");
 
     }
 
@@ -97,52 +90,13 @@ public class SickYard extends Room {
     @Override
     public void update_room() {
 
-        if (player.getBody().getPosition().x > toDLSJunction) {
+        if (player.getBody().getPosition().x > toSSJunction) {
 
             if (Player.act) {
 
                 PlayScreen.isPaused = true;
                 PlayScreen.enterJuction = true;
-                PlayScreen.selectedJunction = JunctionScreen.Sy_LD;
-                roomManager.exitRoom(this);
-                Player.act = false;
-
-            } else {
-                message = "to DLS junction?";
-            }
-        }
-
-        if (player.getBody().getPosition().x > toDormitory - doorLength && player.getBody().getPosition().x < toDormitory + doorLength) {
-            if (Player.act) {
-                roomManager.exitRoom(this);
-                roomManager.setRoom(new Dormitory(world, roomManager, player));
-                player.getBody().setTransform(Dormitory.toSickyard, player.getBody().getPosition().y, 0);
-                player.getBody().setLinearVelocity(0, 0);
-                Player.act = false;
-            } else {
-                message = "go to Dormitory ?";
-            }
-        }
-
-        if (player.getBody().getPosition().x > toDrRoom - doorLength && player.getBody().getPosition().x < toDrRoom + doorLength) {
-            if (Player.act) {
-                roomManager.exitRoom(this);
-                roomManager.setRoom(new DrRoom(world, roomManager, player));
-                player.getBody().setTransform(DrRoom.toSickRoom, player.getBody().getPosition().y, 0);
-                player.getBody().setLinearVelocity(0, 0);
-                Player.act = false;
-            } else {
-                message = "go to Dr room ?";
-            }
-        }
-
-        if (player.getBody().getPosition().x < toSSJunction) {
-
-            if (Player.act) {
-
-                PlayScreen.isPaused = true;
-                PlayScreen.enterJuction = true;
-                PlayScreen.selectedJunction = JunctionScreen.Sy_ScSrE;
+                PlayScreen.selectedJunction = JunctionScreen.Sc_SrESy;
                 roomManager.exitRoom(this);
                 Player.act = false;
 

@@ -4,9 +4,7 @@ import Primary.GameWorld;
 import Secondary.Player;
 import Secondary.Room;
 import Secondary.RoomManager;
-import Secondary.Rooms.DayRoom;
-import Secondary.Rooms.Laundry;
-import Secondary.Rooms.SickYard;
+import Secondary.Rooms.*;
 import Utilities.GameAssets;
 import com.BotXgames.Asylum.MainGameClass;
 import com.badlogic.gdx.Gdx;
@@ -24,14 +22,11 @@ public class JunctionScreen extends AbstractScreen {
     public static final byte D_LSy = 1; // Day room, Laundry, Sick yard
     public static final byte L_DSy = 2;
     public static final byte Sy_LD = 3;
-    // SSS junction
-    public static final byte Sy_ST = 4; // Sy = Sick yard, T = turn (to next junction)
-    public static final byte S_SyT = 5;
-    public static final byte T_SyS = 6;
-    // SSE junction
-    public static final byte T_SrE = 7; // Sr = seclusion room, E = Electric shock room
-    public static final byte Sr_TE = 8;
-    public static final byte E_SrT = 9;
+    // SSSE junction
+    public static final byte Sy_ScSrE = 4; // Sy = Sick yard, T = turn (to next junction)
+    public static final byte Sc_SrESy = 5;
+    public static final byte Sr_EScSy = 6;// Sr = seclusion room, E = Electric shock room
+    public static final byte E_SrScSy = 7;
     private byte junctionType;
 
     private byte roomNo;
@@ -42,6 +37,8 @@ public class JunctionScreen extends AbstractScreen {
     private final byte seclusion = 5;
     private final byte estroom = 6;
     private Room toRoom;
+    private byte selecJunction;
+    private JunctionScreen nextJunctionScreen;
 
     private GameWorld world;
     private RoomManager roomManager;
@@ -53,7 +50,7 @@ public class JunctionScreen extends AbstractScreen {
     Sprite sprite;
 
     public JunctionScreen(MainGameClass gameClass, byte junctionType, GameWorld world) {
-        super (gameClass);
+        super(gameClass);
 
         this.world = world;
         this.junctionType = junctionType;
@@ -65,17 +62,29 @@ public class JunctionScreen extends AbstractScreen {
         switch (junctionType) {
 
             // DLS
-            case D_LSy: Gdx.gl.glClearColor(1, .2f, .3f, 1);break;
-            case L_DSy: Gdx.gl.glClearColor(1, .3f, .2f, 1);break;
-            case Sy_LD: Gdx.gl.glClearColor(1, 0, 0, 1);break;
-            // SSS
-            case Sy_ST: Gdx.gl.glClearColor(.2f, 1, .3f, 1);break;
-            case S_SyT: Gdx.gl.glClearColor(.3f, 1, .2f, 1);break;
-            case T_SyS: Gdx.gl.glClearColor(0, 1, 0, 1);break;
-            //SSE
-            case T_SrE: Gdx.gl.glClearColor(.2f, .3f, 1, 1);break;
-            case Sr_TE: Gdx.gl.glClearColor(.3f, .2f, 1, 1);break;
-            case E_SrT: Gdx.gl.glClearColor(0, 0, 1, 1);break;
+            case D_LSy:
+                Gdx.gl.glClearColor(1, .2f, .3f, 1);
+                break;
+            case L_DSy:
+                Gdx.gl.glClearColor(1, .3f, .2f, 1);
+                break;
+            case Sy_LD:
+                Gdx.gl.glClearColor(1, 0, 0, 1);
+                break;
+
+            // SSSE
+            case Sy_ScSrE:
+                Gdx.gl.glClearColor(.2f, 1, .3f, 1);
+                break;
+            case Sc_SrESy:
+                Gdx.gl.glClearColor(.3f, 1, .2f, 1);
+                break;
+            case Sr_EScSy:
+                Gdx.gl.glClearColor(.3f, 1, .3f, 1);
+                break;
+            case E_SrScSy:
+                Gdx.gl.glClearColor(.2f, 1, .2f, 1);
+                break;
 
         }
 
@@ -84,13 +93,12 @@ public class JunctionScreen extends AbstractScreen {
     @Override
     public void show() {
 
-        sprite = new Sprite (GameAssets.assetManager.get ("bushes.png", Texture.class));
-
+        sprite = new Sprite(GameAssets.assetManager.get("bushes.png", Texture.class));
 
     }
 
     @Override
-    public void render( float delta ) {
+    public void render(float delta) {
 
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -110,14 +118,28 @@ public class JunctionScreen extends AbstractScreen {
                 font.draw(batch, "tap here to go to Laundry ", 200, 240);
                 font.draw(batch, "tap here to go to Day room", 600, 240);
                 break;
-            // SSS
-            case Sy_ST: break;
-            case S_SyT: break;
-            case T_SyS: break;
-            //SSE
-            case T_SrE: break;
-            case Sr_TE: break;
-            case E_SrT: break;
+
+            // SSSE
+            case Sy_ScSrE:
+                font.draw(batch, "EST ", 200, 240);
+                font.draw(batch, "Seclusion", 400, 240);
+                font.draw(batch, "Solitary", 600, 240);
+                break;
+            case Sc_SrESy:
+                font.draw(batch, "Sick yard ", 200, 240);
+                font.draw(batch, "Seclusion", 400, 240);
+                font.draw(batch, "EST", 600, 240);
+                break;
+            case Sr_EScSy:
+                font.draw(batch, "Sick yard ", 0, 240);
+                font.draw(batch, "Solitary", 200, 240);
+                font.draw(batch, "EST", 400, 240);
+                break;
+            case E_SrScSy:
+                font.draw(batch, "Sick yard ", 0, 240);
+                font.draw(batch, "Solitary", 200, 240);
+                font.draw(batch, "Seclusion", 400, 240);
+                break;
 
         }
 
@@ -134,9 +156,15 @@ public class JunctionScreen extends AbstractScreen {
             case sickroom:
                 toRoom = new SickYard(world.world, roomManager, player);
                 break;
-            case solitary: break;
-            case seclusion: break;
-            case estroom: break;
+            case solitary:
+                toRoom = new Solitary(world.world, roomManager, player);
+                break;
+            case seclusion:
+                toRoom = new Seclusion(world.world, roomManager, player);
+                break;
+            case estroom:
+                toRoom = new ElectroshockRoom(world.world, roomManager, player);
+                break;
 
         }
 
@@ -153,7 +181,7 @@ public class JunctionScreen extends AbstractScreen {
     }
 
     @Override
-    public void resize( int width, int height ) {
+    public void resize(int width, int height) {
 
     }
 
@@ -175,11 +203,11 @@ public class JunctionScreen extends AbstractScreen {
     @Override
     public void dispose() {
         font.dispose();
-        batch.dispose ();
+        batch.dispose();
     }
 
     @Override
-    public boolean keyDown( int keycode ) {
+    public boolean keyDown(int keycode) {
         if (keycode == Input.Keys.X) {
             act = true;
         }
@@ -187,7 +215,7 @@ public class JunctionScreen extends AbstractScreen {
     }
 
     @Override
-    public boolean keyUp( int keycode ) {
+    public boolean keyUp(int keycode) {
         if (keycode == Input.Keys.X) {
             act = false;
         }
@@ -195,12 +223,12 @@ public class JunctionScreen extends AbstractScreen {
     }
 
     @Override
-    public boolean keyTyped( char character ) {
+    public boolean keyTyped(char character) {
         return false;
     }
 
     @Override
-    public boolean touchDown( int screenX, int screenY, int pointer, int button ) {
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         switch (junctionType) {
 
             case D_LSy:
@@ -237,15 +265,41 @@ public class JunctionScreen extends AbstractScreen {
                     act = true;
                     roomNo = dayroom;
                     toRoomSpawnpoint = 1.5f;
-                }break;
-            // SSS
-            case Sy_ST: break;
-            case S_SyT: break;
-            case T_SyS: break;
-            //SSE
-            case T_SrE: break;
-            case Sr_TE: break;
-            case E_SrT: break;
+                }
+                break;
+
+            // SSSE
+            case Sy_ScSrE:
+                if (screenX < Gdx.graphics.getWidth() / 2) {
+                    act = true;
+                    roomNo = estroom;
+                    toRoomSpawnpoint = 32.5f;
+                }
+                if (screenX > Gdx.graphics.getWidth() / 2 && screenX < Gdx.graphics.getWidth() / 1.33f) {
+                    act = true;
+                    roomNo = seclusion;
+                    toRoomSpawnpoint = Seclusion.toSEJunction;
+                }
+                if (screenX > Gdx.graphics.getWidth() / 1.33f) {
+                    act = true;
+                    roomNo = solitary;
+                    toRoomSpawnpoint = 40.5f;
+                }
+                break;
+            case Sc_SrESy:
+                if (screenX < Gdx.graphics.getWidth() / 2) { // touched left part of screen
+                    act = true;
+                    roomNo = sickroom;
+                    toRoomSpawnpoint = 28.5f;
+                }
+                if (screenX > Gdx.graphics.getWidth() / 2) { // touched right part of screen
+                    act = true;
+                }
+                break;
+            case Sr_EScSy:
+                break;
+            case E_SrScSy:
+                break;
 
 
         }
@@ -253,22 +307,22 @@ public class JunctionScreen extends AbstractScreen {
     }
 
     @Override
-    public boolean touchUp( int screenX, int screenY, int pointer, int button ) {
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         return false;
     }
 
     @Override
-    public boolean touchDragged( int screenX, int screenY, int pointer ) {
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
         return false;
     }
 
     @Override
-    public boolean mouseMoved( int screenX, int screenY ) {
+    public boolean mouseMoved(int screenX, int screenY) {
         return false;
     }
 
     @Override
-    public boolean scrolled( int amount ) {
+    public boolean scrolled(int amount) {
         return false;
     }
 }

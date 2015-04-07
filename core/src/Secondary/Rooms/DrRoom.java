@@ -116,7 +116,7 @@ public class DrRoom extends Room {
 
         if ( player.getBody ().getPosition ().x < toTunnel ) {
             if ( Player.act ) {
-                message = "tunnel not available?";
+                message = "tunnel not available";
             } else {
                 message = "enter tunnel?";
             }

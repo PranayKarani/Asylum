@@ -17,9 +17,9 @@ public class GameAssets {
      * initializes AssetManager object and loads the splash screen image
      */
     public GameAssets() {
-        assetManager = new AssetManager ();
-        assetManager.load ("splash.png", Texture.class);
-        assetManager.finishLoading ();
+        assetManager = new AssetManager();
+        assetManager.load("splash.png", Texture.class);
+        assetManager.finishLoading();
     }
 
     /**
@@ -28,22 +28,25 @@ public class GameAssets {
     public void queue_Assets() {
 
         // play screen assets
-        assetManager.setLoader (TiledMap.class, new TmxMapLoader ());
+        assetManager.setLoader(TiledMap.class, new TmxMapLoader());
         assetManager.load("bushes.png", Texture.class);
-        assetManager.load ("tmx files/lobby.tmx", TiledMap.class);
-        assetManager.load ("tmx files/Garden.tmx", TiledMap.class);
-        assetManager.load ("tmx files/courtyard.tmx", TiledMap.class);
-        assetManager.load ("tmx files/Office.tmx", TiledMap.class);
-        assetManager.load ("tmx files/DayRoom.tmx", TiledMap.class);
-        assetManager.load ("tmx files/RCHall.tmx", TiledMap.class);
-        assetManager.load ("tmx files/DrRoom.tmx", TiledMap.class);
-        assetManager.load ("tmx files/Laundry.tmx", TiledMap.class);
+        assetManager.load("tmx files/lobby.tmx", TiledMap.class);
+        assetManager.load("tmx files/Garden.tmx", TiledMap.class);
+        assetManager.load("tmx files/courtyard.tmx", TiledMap.class);
+        assetManager.load("tmx files/Office.tmx", TiledMap.class);
+        assetManager.load("tmx files/DayRoom.tmx", TiledMap.class);
+        assetManager.load("tmx files/RCHall.tmx", TiledMap.class);
+        assetManager.load("tmx files/DrRoom.tmx", TiledMap.class);
+        assetManager.load("tmx files/Laundry.tmx", TiledMap.class);
         assetManager.load("tmx files/SickYard.tmx", TiledMap.class);
         assetManager.load("tmx files/Dormitory.tmx", TiledMap.class);
         assetManager.load("tmx files/DiningHall.tmx", TiledMap.class);
         assetManager.load("tmx files/Kitchen.tmx", TiledMap.class);
         assetManager.load("tmx files/StoreRoom.tmx", TiledMap.class);
-        System.out.println ("queued other assets");
+        assetManager.load("tmx files/Solitary.tmx", TiledMap.class);
+        assetManager.load("tmx files/Seclusion.tmx", TiledMap.class);
+        assetManager.load("tmx files/EST.tmx", TiledMap.class);
+        System.out.println("queued other assets");
 
     }
 
