@@ -1,4 +1,4 @@
-package Secondary.Rooms; // 07 Apr, 12:00 PM
+package Secondary.Rooms; // 07 Apr, 12:18 PM
 
 import Secondary.Player;
 import Secondary.Room;
@@ -14,7 +14,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
 
-public class DiningHall extends Room {
+public class Kitchen extends Room {
 
     TiledMap tiledMap;
     MapLayer mapLayer;
@@ -22,15 +22,15 @@ public class DiningHall extends Room {
     Vector2[] chainpoints;
     // Doors
     byte noofDoors; // used for creating all door related vectors
-    public static float toDormitory;
-    public static float toKitchen;
-    public static float toDayRoom;
 
-    public DiningHall(World world, RoomManager roomManager, Player player) {
+    public static float toDiningHall;
+    public static float toStoreRoom;
+
+    public Kitchen(World world, RoomManager roomManager, Player player) {
         super(world, roomManager, player);
 
         //load tiledmap
-        tiledMap = GameAssets.assetManager.get("tmx files/DiningHall.tmx", TiledMap.class);
+        tiledMap = GameAssets.assetManager.get("tmx files/Kitchen.tmx", TiledMap.class);
 
         // take shape layer from tiledmap
         mapLayer = tiledMap.getLayers().get("structure");
@@ -62,17 +62,15 @@ public class DiningHall extends Room {
             }
         }
 
-        toDormitory = centers[0];
-        toKitchen = centers[1];
-        toDayRoom = centers[2];
+        toDiningHall = centers[0];
+        toStoreRoom = centers[1];
 
         // create actually Box2D Room Body with data gathered above
         create_room();
 
         // dispose tiledmap after use
         tiledMap.dispose();
-        System.out.println("entered Dining Hall with " + noofDoors + " doors");
-
+        System.out.println("entered Kitchen with " + noofDoors + " doors");
 
     }
 
@@ -93,39 +91,30 @@ public class DiningHall extends Room {
     @Override
     public void update_room() {
 
-        if (player.getBody().getPosition().x > toDormitory - doorLength && player.getBody().getPosition().x < toDormitory + doorLength) {
+        if (player.getBody().getPosition().x < toDiningHall) {
             if (Player.act) {
                 roomManager.exitRoom(this);
-                roomManager.setRoom(new Dormitory(world, roomManager, player));
-                player.getBody().setTransform(Dormitory.toDiningHall, player.getBody().getPosition().y, 0);
+                roomManager.setRoom(new DiningHall(world, roomManager, player));
+                player.getBody().setTransform(DiningHall.toKitchen, player.getBody().getPosition().y, 0);
                 player.getBody().setLinearVelocity(0, 0);
                 Player.act = false;
             } else {
-                message = "go to Dormitory ?";
+                message = "go to Dining Hall ?";
             }
         }
 
-        if (player.getBody().getPosition().x > toKitchen - doorLength && player.getBody().getPosition().x < toKitchen + doorLength) {
-            if (Player.act) {
-                roomManager.exitRoom(this);
-                roomManager.setRoom(new Kitchen(world, roomManager, player));
-                player.getBody().setTransform(Kitchen.toDiningHall, player.getBody().getPosition().y, 0);
-                player.getBody().setLinearVelocity(0, 0);
-                Player.act = false;
-            } else {
-                message = "go to Kitchen ?";
-            }
-        }
+        if (player.getBody().getPosition().x > toStoreRoom) {
 
-        if (player.getBody().getPosition().x > toDayRoom) {
             if (Player.act) {
+
                 roomManager.exitRoom(this);
-                roomManager.setRoom(new DayRoom(world, roomManager, player));
-                player.getBody().setTransform(DayRoom.toDiningHall, player.getBody().getPosition().y, 0);
+                roomManager.setRoom(new StoreRoom(world, roomManager, player));
+                player.getBody().setTransform(StoreRoom.toKitchen, player.getBody().getPosition().y, 0);
                 player.getBody().setLinearVelocity(0, 0);
                 Player.act = false;
+
             } else {
-                message = "go to Day room ?";
+                message = "to Store Room?";
             }
         }
 
@@ -141,6 +130,5 @@ public class DiningHall extends Room {
             }
             world.destroyBody(body);
         }
-
     }
 }

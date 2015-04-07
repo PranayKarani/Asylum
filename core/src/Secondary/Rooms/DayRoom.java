@@ -136,10 +136,11 @@ public class DayRoom extends Room {
         }
         if ( player.getBody ().getPosition ().x > toStoreRoom ) {
             if ( Player.act ) {
-//                roomManager.exitRoom (this);
-//                roomManager.setRoom (new DrRoom (world, roomManager, player));
-//                player.getBody ().setTransform (Office.toCourtyard, player.getBody ().getPosition ().y, 0);
-//                Player.act = false;
+                roomManager.exitRoom(this);
+                roomManager.setRoom(new StoreRoom(world, roomManager, player));
+                player.getBody().setTransform(StoreRoom.toDayRoom, player.getBody().getPosition().y, 0);
+                player.getBody().setLinearVelocity(0, 0);
+                Player.act = false;
             } else {
                 message = "go to Store room?";
             }

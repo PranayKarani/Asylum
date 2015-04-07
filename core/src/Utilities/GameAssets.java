@@ -41,6 +41,8 @@ public class GameAssets {
         assetManager.load("tmx files/SickYard.tmx", TiledMap.class);
         assetManager.load("tmx files/Dormitory.tmx", TiledMap.class);
         assetManager.load("tmx files/DiningHall.tmx", TiledMap.class);
+        assetManager.load("tmx files/Kitchen.tmx", TiledMap.class);
+        assetManager.load("tmx files/StoreRoom.tmx", TiledMap.class);
         System.out.println ("queued other assets");
 
     }
