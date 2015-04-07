@@ -19,6 +19,8 @@ public class PlayScreen extends AbstractScreen {
     GameWorld world;
     WorldRenderer renderer;
 
+    // Scene2D
+
     public PlayScreen( MainGameClass gameClass ) {
         super (gameClass);
         isPaused = false;
