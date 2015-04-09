@@ -6,6 +6,8 @@ import Secondary.Player;
 import Secondary.Room;
 import Secondary.RoomManager;
 import Utilities.GameAssets;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.EllipseMapObject;
@@ -26,11 +28,11 @@ public class Seclusion extends Room {
     byte noofDoors; // used for creating all door related vectors
     public static float toSEJunction;
 
-    public Seclusion(World world, RoomManager roomManager, Player player) {
-        super(world, roomManager, player);
+    public Seclusion(World world, RoomManager roomManager, Player player, SpriteBatch batch) {
+        super(world, roomManager, player, batch);
 
         //load tiledmap
-        tiledMap = GameAssets.assetManager.get("tmx files/Seclusion.tmx", TiledMap.class);
+        tiledMap = GameAssets.assetManager.get("tmx files/Kitchen.tmx", TiledMap.class);
 
         // take shape layer from tiledmap
         mapLayer = tiledMap.getLayers().get("structure");
@@ -105,6 +107,11 @@ public class Seclusion extends Room {
             }
         }
 
+    }
+
+    @Override
+    public void render_room(OrthographicCamera camera) {
+        
     }
 
     @Override

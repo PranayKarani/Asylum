@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.utils.viewport.FillViewport;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 /**
@@ -28,7 +28,7 @@ public class CameraManager {
     }
 
     public void resize( int width, int height ) {
-        viewport = new FillViewport (1280 / 100, 720 / 100, gameCam);
+        viewport = new FitViewport(1280 / 100, 720 / 100, gameCam);
         viewport.apply ();
         viewport.update (width, height);
 
@@ -49,10 +49,13 @@ public class CameraManager {
 
     public static void smartFollow( OrthographicCamera camera, Body body, boolean isFacingRight ) {
 
-        camera.position.x += (body.getPosition ().x - camera.position.x) * 0.1f;
+        camera.position.x += Math.round(body.getPosition().x - (camera.position.x)) * 0.035f;
         camera.position.y += ((body.getPosition ().y - camera.position.y) * 0.1f) + (camera.viewportHeight / 80);
 
     }
 
-
+    // getters
+    public Viewport getViewport() {
+        return viewport;
+    }
 }

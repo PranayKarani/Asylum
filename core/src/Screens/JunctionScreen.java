@@ -7,7 +7,7 @@ import Secondary.RoomManager;
 import Secondary.Rooms.*;
 import com.BotXgames.Asylum.MainGameClass;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -15,7 +15,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 
 import static Secondary.Player.act;
 
-public class JunctionScreen extends AbstractScreen {
+public class JunctionScreen extends AbstractScreen implements InputProcessor {
 
     // DLS junction
     public static final byte D_LSy = 1; // Day room, Laundry, Sick yard
@@ -154,22 +154,22 @@ public class JunctionScreen extends AbstractScreen {
         switch (roomNo) {
 
             case laundry:
-                toRoom = new Laundry(world.world, roomManager, player);
+                toRoom = new Laundry(world.world, roomManager, player, batch);
                 break;
             case dayroom:
-                toRoom = new DayRoom(world.world, roomManager, player);
+                toRoom = new DayRoom(world.world, roomManager, player, batch);
                 break;
             case sickroom:
-                toRoom = new SickYard(world.world, roomManager, player);
+                toRoom = new Sickyard(world.world, roomManager, player, batch);
                 break;
             case solitary:
-                toRoom = new Solitary(world.world, roomManager, player);
+                toRoom = new Solitary(world.world, roomManager, player, batch);
                 break;
             case seclusion:
-                toRoom = new Seclusion(world.world, roomManager, player);
+                toRoom = new Seclusion(world.world, roomManager, player, batch);
                 break;
             case estroom:
-                toRoom = new ElectroshockRoom(world.world, roomManager, player);
+                toRoom = new ElectroshockRoom(world.world, roomManager, player, batch);
                 break;
 
         }
@@ -214,18 +214,12 @@ public class JunctionScreen extends AbstractScreen {
 
     @Override
     public boolean keyDown(int keycode) {
-        if (keycode == Input.Keys.X) {
-            act = true;
-        }
-        return true;
+        return false;
     }
 
     @Override
     public boolean keyUp(int keycode) {
-        if (keycode == Input.Keys.X) {
-            act = false;
-        }
-        return true;
+        return false;
     }
 
     @Override
@@ -351,7 +345,8 @@ public class JunctionScreen extends AbstractScreen {
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        return false;
+        act = false;
+        return true;
     }
 
     @Override

@@ -1,5 +1,7 @@
 package Secondary; // 01 Apr, 10:59 PM
 
+import com.badlogic.gdx.graphics.OrthographicCamera;
+
 /**
  * RoomManager's purpose it manage transactions of Rooms<br>
  * RoomManager maintains:
@@ -39,6 +41,10 @@ public class RoomManager {
      */
     public void update() {
         currentRoom.update_room();
+    }
+
+    public void render(OrthographicCamera camera) {
+        currentRoom.render_room(camera);
     }
 
     /**

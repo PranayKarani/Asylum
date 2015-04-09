@@ -1,6 +1,9 @@
 package Secondary; // 01 Apr, 12:01 PM
 
 import Screens.AbstractScreen;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.physics.box2d.*;
 
 /**
@@ -27,14 +30,17 @@ public abstract class Room{
     public static final float doorLength = 75f / 100f;
     public static String message; // for debugging purposees only
     protected boolean canDestroyRoom;
+    protected SpriteBatch batch;
+    public OrthogonalTiledMapRenderer mapRenderer;
 
     /**
      * Box2D and other stuff is initialized here and are ready for use...
      * @param world
      * @param roomManager
      */
-    public Room(World world, RoomManager roomManager, Player player) {
+    public Room(World world, RoomManager roomManager, Player player, SpriteBatch batch) {
         this.world = world;
+        this.batch = batch;
         bdef = new BodyDef ();
         fdef = new FixtureDef ();
         chainShape = new ChainShape ();
@@ -57,6 +63,8 @@ public abstract class Room{
      *  e.g. A lobby might behave differently than other rooms. This is specified here.
      */
     public abstract void update_room();
+
+    public abstract void render_room(OrthographicCamera camera);
 
     /**
      * Abstact method from parent class.<br>

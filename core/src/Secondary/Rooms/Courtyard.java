@@ -4,10 +4,14 @@ import Secondary.Player;
 import Secondary.Room;
 import Secondary.RoomManager;
 import Utilities.GameAssets;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture.TextureFilter;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.EllipseMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Ellipse;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -28,11 +32,13 @@ public class Courtyard extends Room {
     public static float toOffice;
     public static float toDrRoom;
 
-    public Courtyard(World world, RoomManager roomManager, Player player) {
-        super(world, roomManager, player);
+    public Courtyard(World world, RoomManager roomManager, Player player, SpriteBatch batch) {
+        super(world, roomManager, player, batch);
         //load tiledmap
         tiledMap = GameAssets.assetManager.get ("tmx files/courtyard.tmx", TiledMap.class);
-
+        mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, 1 / 100f);
+        for (int i = 1; i <= mapRenderer.getMap().getTileSets().getTileSet("tileset").size(); i++)
+            mapRenderer.getMap().getTileSets().getTileSet("tileset").getTile(i).getTextureRegion().getTexture().setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
         // take shape layer from tiledmap
         mapLayer = tiledMap.getLayers ().get ("structure");
         // count structure points (edges)
@@ -96,7 +102,7 @@ public class Courtyard extends Room {
         if ( player.getBody ().getPosition ().x > toRC ) {
             if ( Player.act ) {
                 roomManager.exitRoom (this);
-                roomManager.setRoom(new RCHall(world, roomManager, player));
+                roomManager.setRoom(new RCHall(world, roomManager, player, batch));
                 player.getBody ().setTransform (RCHall.toCourtyard, player.getBody ().getPosition ().y, 0);
                 Player.act = false;
             } else {
@@ -107,7 +113,7 @@ public class Courtyard extends Room {
         if ( player.getBody ().getPosition ().x > toLobby - doorLength && player.getBody ().getPosition ().x < toLobby + doorLength ) {
             if ( Player.act ) {
                 roomManager.exitRoom (this);
-                roomManager.setRoom(new Lobby(world, roomManager, player));
+                roomManager.setRoom(new Lobby(world, roomManager, player, batch));
                 player.getBody ().setTransform (Lobby.toCourtyard, player.getBody ().getPosition ().y, 0);
                 Player.act = false;
             } else {
@@ -118,7 +124,7 @@ public class Courtyard extends Room {
         if ( player.getBody ().getPosition ().x > toDayRoom - doorLength && player.getBody ().getPosition ().x < toDayRoom + doorLength ) {
             if ( Player.act ) {
                 roomManager.exitRoom (this);
-                roomManager.setRoom(new DayRoom(world, roomManager, player));
+                roomManager.setRoom(new DayRoom(world, roomManager, player, batch));
                 player.getBody ().setTransform (DayRoom.toCourtyard, player.getBody ().getPosition ().y, 0);
                 Player.act = false;
             } else {
@@ -129,7 +135,7 @@ public class Courtyard extends Room {
         if ( player.getBody ().getPosition ().x > toOffice - doorLength && player.getBody ().getPosition ().x < toOffice + doorLength ) {
             if ( Player.act ) {
                 roomManager.exitRoom (this);
-                roomManager.setRoom(new Office(world, roomManager, player));
+                roomManager.setRoom(new Office(world, roomManager, player, batch));
                 player.getBody ().setTransform (Office.toCourtyard, player.getBody ().getPosition ().y, 0);
                 Player.act = false;
             } else {
@@ -140,12 +146,23 @@ public class Courtyard extends Room {
         if ( player.getBody ().getPosition ().x < toDrRoom ) {
             if ( Player.act ) {
                 roomManager.exitRoom (this);
-                roomManager.setRoom(new DrRoom(world, roomManager, player));
+                roomManager.setRoom(new DrRoom(world, roomManager, player, batch));
                 player.getBody ().setTransform (DrRoom.toCourtyard, player.getBody ().getPosition ().y, 0);
                 Player.act = false;
             } else {
                 message = "go to Dr. room?";
             }
+        }
+
+
+    }
+
+    @Override
+    public void render_room(OrthographicCamera camera) {
+
+        if (mapRenderer != null) {
+            mapRenderer.setView(camera);
+            mapRenderer.render();
         }
 
     }
@@ -158,6 +175,7 @@ public class Courtyard extends Room {
             }
             world.destroyBody (body);
         }
+        mapRenderer = null;
     }
 
 }

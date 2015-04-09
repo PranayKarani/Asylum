@@ -4,6 +4,8 @@ import Secondary.Player;
 import Secondary.Room;
 import Secondary.RoomManager;
 import Utilities.GameAssets;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.EllipseMapObject;
@@ -26,8 +28,8 @@ public class Kitchen extends Room {
     public static float toDiningHall;
     public static float toStoreRoom;
 
-    public Kitchen(World world, RoomManager roomManager, Player player) {
-        super(world, roomManager, player);
+    public Kitchen(World world, RoomManager roomManager, Player player, SpriteBatch batch) {
+        super(world, roomManager, player, batch);
 
         //load tiledmap
         tiledMap = GameAssets.assetManager.get("tmx files/Kitchen.tmx", TiledMap.class);
@@ -94,7 +96,7 @@ public class Kitchen extends Room {
         if (player.getBody().getPosition().x < toDiningHall) {
             if (Player.act) {
                 roomManager.exitRoom(this);
-                roomManager.setRoom(new DiningHall(world, roomManager, player));
+                roomManager.setRoom(new DiningHall(world, roomManager, player, batch));
                 player.getBody().setTransform(DiningHall.toKitchen, player.getBody().getPosition().y, 0);
                 player.getBody().setLinearVelocity(0, 0);
                 Player.act = false;
@@ -108,7 +110,7 @@ public class Kitchen extends Room {
             if (Player.act) {
 
                 roomManager.exitRoom(this);
-                roomManager.setRoom(new StoreRoom(world, roomManager, player));
+                roomManager.setRoom(new StoreRoom(world, roomManager, player, batch));
                 player.getBody().setTransform(StoreRoom.toKitchen, player.getBody().getPosition().y, 0);
                 player.getBody().setLinearVelocity(0, 0);
                 Player.act = false;
@@ -118,6 +120,11 @@ public class Kitchen extends Room {
             }
         }
 
+    }
+
+    @Override
+    public void render_room(OrthographicCamera camera) {
+        
     }
 
     @Override

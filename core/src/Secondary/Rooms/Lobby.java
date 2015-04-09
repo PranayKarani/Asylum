@@ -4,6 +4,8 @@ import Secondary.Player;
 import Secondary.Room;
 import Secondary.RoomManager;
 import Utilities.GameAssets;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.EllipseMapObject;
@@ -25,8 +27,8 @@ public class Lobby extends Room { // 150cm + 30cm(entrance)
     // Doors
     byte noofDoors; // used for creating all door related vectors
 
-    public Lobby(World world, RoomManager roomManager, Player player) {
-        super(world, roomManager, player);
+    public Lobby(World world, RoomManager roomManager, Player player, SpriteBatch batch) {
+        super(world, roomManager, player, batch);
 
         //load tiledmap
         tiledMap = GameAssets.assetManager.get ("tmx files/lobby.tmx", TiledMap.class);
@@ -90,7 +92,7 @@ public class Lobby extends Room { // 150cm + 30cm(entrance)
         if ( player.getBody ().getPosition ().x < toCourtyard ) {
             if ( Player.act ) {
                 roomManager.exitRoom (this);
-                roomManager.setRoom(new Courtyard(world, roomManager, player));
+                roomManager.setRoom(new Courtyard(world, roomManager, player, batch));
                 player.getBody ().setTransform (Courtyard.toLobby, player.getBody ().getPosition ().y, 0);
                 Player.act = false;
             } else {
@@ -100,7 +102,7 @@ public class Lobby extends Room { // 150cm + 30cm(entrance)
         if ( player.getBody ().getPosition ().x > toGarden ) {
             if ( Player.act ) {
                 roomManager.exitRoom (this);
-                roomManager.setRoom(new Garden(world, roomManager, player));
+                roomManager.setRoom(new Garden(world, roomManager, player, batch));
                 player.getBody ().setTransform (Garden.toLobby, player.getBody ().getPosition ().y, 0);
                 Player.act = false;
             } else {
@@ -108,6 +110,11 @@ public class Lobby extends Room { // 150cm + 30cm(entrance)
             }
         }
 
+    }
+
+    @Override
+    public void render_room(OrthographicCamera camera) {
+        
     }
 
     public void destroy_room() {

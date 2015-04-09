@@ -6,6 +6,8 @@ import Secondary.Player;
 import Secondary.Room;
 import Secondary.RoomManager;
 import Utilities.GameAssets;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.EllipseMapObject;
@@ -16,7 +18,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
 
-public class SickYard extends Room {
+public class Sickyard extends Room {
 
     TiledMap tiledMap;
     MapLayer mapLayer;
@@ -30,11 +32,11 @@ public class SickYard extends Room {
     public static float toDLSJunction;
 
 
-    public SickYard(World world, RoomManager roomManager, Player player) {
-        super(world, roomManager, player);
+    public Sickyard(World world, RoomManager roomManager, Player player, SpriteBatch batch) {
+        super(world, roomManager, player, batch);
 
         //load tiledmap
-        tiledMap = GameAssets.assetManager.get("tmx files/SickYard.tmx", TiledMap.class);
+        tiledMap = GameAssets.assetManager.get("tmx files/Sickyard.tmx", TiledMap.class);
 
         // take shape layer from tiledmap
         mapLayer = tiledMap.getLayers().get("structure");
@@ -115,7 +117,7 @@ public class SickYard extends Room {
         if (player.getBody().getPosition().x > toDormitory - doorLength && player.getBody().getPosition().x < toDormitory + doorLength) {
             if (Player.act) {
                 roomManager.exitRoom(this);
-                roomManager.setRoom(new Dormitory(world, roomManager, player));
+                roomManager.setRoom(new Dormitory(world, roomManager, player, batch));
                 player.getBody().setTransform(Dormitory.toSickyard, player.getBody().getPosition().y, 0);
                 player.getBody().setLinearVelocity(0, 0);
                 Player.act = false;
@@ -127,7 +129,7 @@ public class SickYard extends Room {
         if (player.getBody().getPosition().x > toDrRoom - doorLength && player.getBody().getPosition().x < toDrRoom + doorLength) {
             if (Player.act) {
                 roomManager.exitRoom(this);
-                roomManager.setRoom(new DrRoom(world, roomManager, player));
+                roomManager.setRoom(new DrRoom(world, roomManager, player, batch));
                 player.getBody().setTransform(DrRoom.toSickRoom, player.getBody().getPosition().y, 0);
                 player.getBody().setLinearVelocity(0, 0);
                 Player.act = false;
@@ -151,6 +153,11 @@ public class SickYard extends Room {
             }
         }
 
+    }
+
+    @Override
+    public void render_room(OrthographicCamera camera) {
+        
     }
 
     @Override

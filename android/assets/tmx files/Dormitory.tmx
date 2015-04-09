@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="84" height="7" tilewidth="100" tileheight="100" nextobjectid="9">
+ <tileset firstgid="1" name="tileset" tilewidth="100" tileheight="100">
+  <image source="tileset.png" width="300" height="300"/>
+ </tileset>
+ <layer name="floor" width="84" height="7">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUjIJRMAoGHrAPEswBxJwDqJ9Su2Bio4C6AACnoAJZ
+  </data>
+ </layer>
+ <layer name="Door" width="84" height="7">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2B4ACYgZh5oR5AA6OleJjL0sAIxG7UdQkNAT/eykqlnNDxx20WOntHwxG3XKKA+AABZTwBe
+  </data>
+ </layer>
+ <layer name="Wall" width="84" height="7">
+  <data encoding="base64" compression="zlib">
+   eJztwwENAAAMw6DOv+kruANIWDVVVd8Hm34CTQ==
+  </data>
+ </layer>
+ <objectgroup name="structure">
+  <object id="2" x="100" y="100">
+   <ellipse/>
+  </object>
+  <object id="3" x="100" y="600">
+   <ellipse/>
+  </object>
+  <object id="4" x="8300" y="600">
+   <ellipse/>
+  </object>
+  <object id="5" x="8300" y="100">
+   <ellipse/>
+  </object>
+ </objectgroup>
+ <objectgroup name="Doors">
+  <object id="6" name="Sick yard" x="1200" y="600">
+   <ellipse/>
+  </object>
+  <object id="7" name="Laundry" x="5600" y="600">
+   <ellipse/>
+  </object>
+  <object id="8" name="Dining hall" x="8250" y="600">
+   <ellipse/>
+  </object>
+ </objectgroup>
+</map>

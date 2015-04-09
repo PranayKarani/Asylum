@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="96" height="7" tilewidth="100" tileheight="100" nextobjectid="12">
+ <objectgroup name="structure">
+  <object id="1" x="100" y="100">
+   <ellipse/>
+  </object>
+  <object id="2" x="100" y="600">
+   <ellipse/>
+  </object>
+  <object id="3" x="9500" y="600">
+   <ellipse/>
+  </object>
+  <object id="4" x="9500" y="100">
+   <ellipse/>
+  </object>
+ </objectgroup>
+ <objectgroup name="Doors">
+  <object id="8" x="150" y="600">
+   <ellipse/>
+  </object>
+  <object id="9" name="courtyard" x="500" y="600">
+   <ellipse/>
+  </object>
+  <object id="10" name="dining hall" x="4900" y="600">
+   <ellipse/>
+  </object>
+  <object id="11" name="store room" x="9450" y="600">
+   <ellipse/>
+  </object>
+ </objectgroup>
+</map>

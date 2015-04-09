@@ -2,10 +2,8 @@ package Primary; // 03 Apr, 04:22 PM
 
 import Secondary.Room;
 import Secondary.RoomManager;
-import Secondary.Rooms.Courtyard;
 import Utilities.CameraManager;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -17,7 +15,7 @@ public class WorldRenderer {
     boolean debug = true;
     GameWorld world;
     SpriteBatch batch;
-    CameraManager cameraManager;
+    public CameraManager cameraManager;
     Box2DDebugRenderer b2dr;
     ShapeRenderer sr;
     BitmapFont font;
@@ -28,7 +26,7 @@ public class WorldRenderer {
         cameraManager = new CameraManager ();
         b2dr = new Box2DDebugRenderer ();
         sr = new ShapeRenderer ();
-        font = new BitmapFont ();
+        font = new BitmapFont(Gdx.files.internal("Scene2D/fonts.fnt"), Gdx.files.internal("Scene2D/fonts.png"), false);
     }
 
     public void resize( int width, int height ) {
@@ -37,29 +35,30 @@ public class WorldRenderer {
 
     public void render() {
 
+        CameraManager.smartFollow(cameraManager.gameCam, RoomManager.currentRoom.player.getBody(), true);
+        CameraManager.controlCam(cameraManager.gameCam);
+
+        world.roomManager.render(cameraManager.gameCam);
+
         if(debug){
             b2dr.render (world.world, cameraManager.gameCam.combined);
-            if ( RoomManager.currentRoom instanceof Courtyard ) {
-                sr.setProjectionMatrix (cameraManager.gameCam.combined);
-                sr.begin (ShapeRenderer.ShapeType.Line);
-                sr.setColor (Color.RED);
-                sr.rect (Courtyard.toRC, 1f, 0.05f, 1);
-                sr.rect (Courtyard.toDrRoom, 1f, 0.05f, 1);
-                sr.setColor (Color.GREEN);
-                sr.rect (Courtyard.toLobby - Courtyard.doorLength, 1f, (Courtyard.doorLength * 2), 1);
-                sr.rect (Courtyard.toDayRoom - Courtyard.doorLength, 1f, (Courtyard.doorLength * 2), 1);
-                sr.rect (Courtyard.toOffice - Courtyard.doorLength, 1f, (Courtyard.doorLength * 2), 1);
-                sr.end ();
-            }
+//            if ( RoomManager.currentRoom instanceof Courtyard ) {
+//                sr.setProjectionMatrix (cameraManager.gameCam.combined);
+//                sr.begin (ShapeRenderer.ShapeType.Line);
+//                sr.setColor (Color.RED);
+//                sr.rect (Courtyard.toRC, 1f, 0.05f, 1);
+//                sr.rect (Courtyard.toDrRoom, 1f, 0.05f, 1);
+//                sr.setColor (Color.GREEN);
+//                sr.rect (Courtyard.toLobby - Courtyard.doorLength, 1f, (Courtyard.doorLength * 2), 1);
+//                sr.rect (Courtyard.toDayRoom - Courtyard.doorLength, 1f, (Courtyard.doorLength * 2), 1);
+//                sr.rect (Courtyard.toOffice - Courtyard.doorLength, 1f, (Courtyard.doorLength * 2), 1);
+//                sr.end ();
+//            }
 
-            showHUD (batch, cameraManager.hudCam);
-
-        } else {
+//            showHUD (batch, cameraManager.hudCam);
 
         }
 
-        CameraManager.smartFollow (cameraManager.gameCam, RoomManager.currentRoom.player.getBody (), true);
-        CameraManager.controlCam (cameraManager.gameCam);
     }
 
     public void dispose() {
@@ -75,6 +74,11 @@ public class WorldRenderer {
         font.draw (batch, "   " + Room.message, 0, Gdx.graphics.getHeight () - 19);
         batch.end ();
 
+    }
+
+    // getters..
+    public BitmapFont getFont() {
+        return font;
     }
 
 }

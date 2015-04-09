@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="44" height="7" tilewidth="100" tileheight="100" nextobjectid="24">
+ <tileset firstgid="1" name="tileset" tilewidth="100" tileheight="100">
+  <image source="tileset.png" width="512" height="512"/>
+ </tileset>
+ <layer name="wall" width="44" height="7">
+  <data encoding="base64" compression="zlib">
+   eJxjYBhagHEUj+JRPIpxYAAnfgEJ
+  </data>
+ </layer>
+ <layer name="floor" width="44" height="7">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUjALsgJvGmAeIealoFgCv5AHp
+  </data>
+ </layer>
+ <layer name="door" width="44" height="7">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2DoAmYi1DARqY5cfaSo4yBCHTuR6sjVN1Dq6OEOAHqgAI0=
+  </data>
+ </layer>
+ <objectgroup name="structure">
+  <object id="15" x="0" y="200">
+   <ellipse/>
+  </object>
+  <object id="16" x="0" y="700">
+   <ellipse/>
+  </object>
+  <object id="17" x="4400" y="700">
+   <ellipse/>
+  </object>
+  <object id="18" x="4400" y="200">
+   <ellipse/>
+  </object>
+ </objectgroup>
+ <objectgroup color="#aa5500" name="Doors">
+  <object id="19" name="recreation hall" x="4350" y="700">
+   <ellipse/>
+  </object>
+  <object id="20" name="lobby" x="3400" y="700">
+   <ellipse/>
+  </object>
+  <object id="21" name="Day Room" x="2400" y="700">
+   <ellipse/>
+  </object>
+  <object id="22" name="Office" x="1000" y="700">
+   <ellipse/>
+  </object>
+  <object id="23" name="Dr room" x="50" y="700">
+   <ellipse/>
+  </object>
+ </objectgroup>
+</map>

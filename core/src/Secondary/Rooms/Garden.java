@@ -4,6 +4,8 @@ import Secondary.Player;
 import Secondary.Room;
 import Secondary.RoomManager;
 import Utilities.GameAssets;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.EllipseMapObject;
@@ -24,8 +26,8 @@ public class Garden extends Room {
     byte noofDoors; // used for creating all door related vectors
     public static float toLobby;
 
-    public Garden(World world, RoomManager roomManager, Player player) {
-        super(world, roomManager, player);
+    public Garden(World world, RoomManager roomManager, Player player, SpriteBatch batch) {
+        super(world, roomManager, player, batch);
 
         //load tiledmap
         tiledMap = GameAssets.assetManager.get ("tmx files/Garden.tmx", TiledMap.class);
@@ -91,13 +93,18 @@ public class Garden extends Room {
         if ( player.getBody ().getPosition ().x > toLobby - doorLength && player.getBody ().getPosition ().x < toLobby + doorLength ) {
             if ( Player.act ) {
                 roomManager.exitRoom (this);
-                roomManager.setRoom(new Lobby(world, roomManager, player));
+                roomManager.setRoom(new Lobby(world, roomManager, player, batch));
                 player.getBody ().setTransform (Lobby.toGarden, player.getBody ().getPosition ().y, 0);
                 Player.act = false;
             } else {
                 message = "go to Lobby?";
             }
         }
+
+    }
+
+    @Override
+    public void render_room(OrthographicCamera camera) {
 
     }
 

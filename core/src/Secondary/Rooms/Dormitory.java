@@ -4,6 +4,8 @@ import Secondary.Player;
 import Secondary.Room;
 import Secondary.RoomManager;
 import Utilities.GameAssets;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.EllipseMapObject;
@@ -26,8 +28,8 @@ public class Dormitory extends Room {
     public static float toLaundry;
     public static float toDiningHall;
 
-    public Dormitory(World world, RoomManager roomManager, Player player) {
-        super(world, roomManager, player);
+    public Dormitory(World world, RoomManager roomManager, Player player, SpriteBatch batch) {
+        super(world, roomManager, player, batch);
 
         //load tiledmap
         tiledMap = GameAssets.assetManager.get("tmx files/Dormitory.tmx", TiledMap.class);
@@ -95,8 +97,8 @@ public class Dormitory extends Room {
         if (player.getBody().getPosition().x > toSickyard - doorLength && player.getBody().getPosition().x < toSickyard + doorLength) {
             if (Player.act) {
                 roomManager.exitRoom(this);
-                roomManager.setRoom(new SickYard(world, roomManager, player));
-                player.getBody().setTransform(SickYard.toDormitory, player.getBody().getPosition().y, 0);
+                roomManager.setRoom(new Sickyard(world, roomManager, player, batch));
+                player.getBody().setTransform(Sickyard.toDormitory, player.getBody().getPosition().y, 0);
                 player.getBody().setLinearVelocity(0, 0);
                 Player.act = false;
             } else {
@@ -107,7 +109,7 @@ public class Dormitory extends Room {
         if (player.getBody().getPosition().x > toLaundry - doorLength && player.getBody().getPosition().x < toLaundry + doorLength) {
             if (Player.act) {
                 roomManager.exitRoom(this);
-                roomManager.setRoom(new Laundry(world, roomManager, player));
+                roomManager.setRoom(new Laundry(world, roomManager, player, batch));
                 player.getBody().setTransform(Laundry.toDormitory, player.getBody().getPosition().y, 0);
                 player.getBody().setLinearVelocity(0, 0);
                 Player.act = false;
@@ -119,7 +121,7 @@ public class Dormitory extends Room {
         if (player.getBody().getPosition().x > toDiningHall) {
             if (Player.act) {
                 roomManager.exitRoom(this);
-                roomManager.setRoom(new DiningHall(world, roomManager, player));
+                roomManager.setRoom(new DiningHall(world, roomManager, player, batch));
                 player.getBody().setTransform(DiningHall.toDormitory, player.getBody().getPosition().y, 0);
                 player.getBody().setLinearVelocity(0, 0);
                 Player.act = false;
@@ -127,6 +129,11 @@ public class Dormitory extends Room {
                 message = "go to Dining Hall ?";
             }
         }
+
+    }
+
+    @Override
+    public void render_room(OrthographicCamera camera) {
 
     }
 

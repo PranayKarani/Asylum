@@ -4,6 +4,8 @@ import Secondary.Player;
 import Secondary.Room;
 import Secondary.RoomManager;
 import Utilities.GameAssets;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.EllipseMapObject;
@@ -26,8 +28,8 @@ public class DrRoom extends Room {
     public static float toSickRoom;
     public static float toCourtyard;
 
-    public DrRoom(World world, RoomManager roomManager, Player player) {
-        super(world, roomManager, player);
+    public DrRoom(World world, RoomManager roomManager, Player player, SpriteBatch batch) {
+        super(world, roomManager, player, batch);
 
         //load tiledmap
         tiledMap = GameAssets.assetManager.get ("tmx files/DrRoom.tmx", TiledMap.class);
@@ -95,7 +97,7 @@ public class DrRoom extends Room {
         if ( player.getBody ().getPosition ().x > toCourtyard ) {
             if ( Player.act ) {
                 roomManager.exitRoom (this);
-                roomManager.setRoom(new Courtyard(world, roomManager, player));
+                roomManager.setRoom(new Courtyard(world, roomManager, player, batch));
                 player.getBody ().setTransform (Courtyard.toDrRoom, player.getBody ().getPosition ().y, 0);
                 Player.act = false;
             } else {
@@ -106,8 +108,8 @@ public class DrRoom extends Room {
         if ( player.getBody ().getPosition ().x > toSickRoom - doorLength && player.getBody ().getPosition ().x < toSickRoom + doorLength ) {
             if ( Player.act ) {
                 roomManager.exitRoom(this);
-                roomManager.setRoom(new SickYard(world, roomManager, player));
-                player.getBody().setTransform(SickYard.toDrRoom, player.getBody().getPosition().y, 0);
+                roomManager.setRoom(new Sickyard(world, roomManager, player, batch));
+                player.getBody().setTransform(Sickyard.toDrRoom, player.getBody().getPosition().y, 0);
                 Player.act = false;
             } else {
                 message = "go to Sick room?";
@@ -121,6 +123,11 @@ public class DrRoom extends Room {
                 message = "enter tunnel?";
             }
         }
+
+    }
+
+    @Override
+    public void render_room(OrthographicCamera camera) {
 
     }
 

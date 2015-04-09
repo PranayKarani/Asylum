@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="62" height="7" tilewidth="100" tileheight="100" nextobjectid="9">
+ <objectgroup name="structure">
+  <object id="1" x="100" y="100">
+   <ellipse/>
+  </object>
+  <object id="2" x="100" y="600">
+   <ellipse/>
+  </object>
+  <object id="3" x="6100" y="600">
+   <ellipse/>
+  </object>
+  <object id="4" x="6100" y="100">
+   <ellipse/>
+  </object>
+ </objectgroup>
+ <objectgroup name="Doors">
+  <object id="5" name="SSS junction" x="150" y="600">
+   <ellipse/>
+  </object>
+  <object id="6" name="Dormitory" x="3100" y="600">
+   <ellipse/>
+  </object>
+  <object id="7" name="Dr room" x="5600" y="600">
+   <ellipse/>
+  </object>
+  <object id="8" name="DLS junction" x="6050" y="600">
+   <ellipse/>
+  </object>
+ </objectgroup>
+</map>

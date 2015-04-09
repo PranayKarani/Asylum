@@ -6,6 +6,8 @@ import Secondary.Player;
 import Secondary.Room;
 import Secondary.RoomManager;
 import Utilities.GameAssets;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.EllipseMapObject;
@@ -28,8 +30,8 @@ public class Laundry extends Room {
     public static float toDLSJunction;
     public static float toDormitory;
 
-    public Laundry(World world, RoomManager roomManager, Player player) {
-        super(world, roomManager, player);
+    public Laundry(World world, RoomManager roomManager, Player player, SpriteBatch batch) {
+        super(world, roomManager, player, batch);
 
         //load tiledmap
         tiledMap = GameAssets.assetManager.get("tmx files/Laundry.tmx", TiledMap.class);
@@ -96,7 +98,7 @@ public class Laundry extends Room {
         if (player.getBody().getPosition().x < toDormitory) {
             if (Player.act) {
                 roomManager.exitRoom(this);
-                roomManager.setRoom(new Dormitory(world, roomManager, player));
+                roomManager.setRoom(new Dormitory(world, roomManager, player, batch));
                 player.getBody().setTransform(Dormitory.toLaundry, player.getBody().getPosition().y, 0);
                 player.getBody().setLinearVelocity(0, 0);
                 Player.act = false;
@@ -119,6 +121,11 @@ public class Laundry extends Room {
                 message = "to DLS junction?";
             }
         }
+
+    }
+
+    @Override
+    public void render_room(OrthographicCamera camera) {
 
     }
 
